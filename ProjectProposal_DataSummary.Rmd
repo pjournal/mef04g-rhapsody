@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Brief
 
-We will analyze the change of labor force by educational level, job searching methods and occupational groups of Turkey between the years 2014 - 2020. 
+We will analyze the change of labor force by educational level, gender, job searching methods and occupational groups of Turkey between the years 2014 and 2020. 
 
 #### Datasets
 
@@ -66,10 +66,10 @@ Throughout this analysis we defined some objectives. Below you can find all the 
 
 ### Data Sources
 
-+ [Unemployment by occupational group](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
++ [Labour force status by educational level](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
 + [Unemployment by job search methods](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8)
 + [Labour force status of higher education graduates by the last graduated  field of education](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
++ [Unemployment by occupational group](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
 + [Employment by educational level](https://biruni.tuik.gov.tr/medas/?kn=72&locale=tr)
-+ [Labour force status by educational level](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
 
-[Back to our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
+Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
