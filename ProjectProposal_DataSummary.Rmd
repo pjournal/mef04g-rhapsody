@@ -56,7 +56,13 @@ Throughout this analysis we defined some objectives. Below you can find all the 
 
 ### Plan
 
-Our plan
++ Preparing data to make analysis
++ Using `dplyr` library to get a better understanding of data
++ Using `ggplot2` library to create visuals and to see trends
++ Comparing metrics which might be related to each other and evaluating them
++ Deepening the analysis by adding additional data if necessary
++ Completing the analysis with meaningful insights
+
 
 ### Data Sources
 
