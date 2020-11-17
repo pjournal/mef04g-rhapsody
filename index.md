@@ -7,5 +7,6 @@
 - Serhan Bayram
 - Umut Turhan
 
-### Project Proposal & Summary of the data and explanations
-- We decided to make a comprehensive analysis on employment and unemployment topices. Our Project Proposal and detail data explanation can be found [here](ProjectProposal_DataSummary.html).
+### Unemployment & Employment Rates in Turkey (2014-2020)
+- [Project Proposal](ProjectProposal_DataSummary.html)
+- [Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
