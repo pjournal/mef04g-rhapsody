@@ -41,10 +41,17 @@ The dataset is grouped by gender and includes job search methods such as; newspa
 
 It consists of the annual numbers of employed and unemployed people by field of education, such as; law, veterinary, engineering etc. The dataset consists of the statistics from 2014 to 2019.
 
+We plan to use different datasets related to the subject in additional research as well.
 
 ### Objectives
 
-Our objectives
+Throughout this analysis we defined some objectives. Below you can find all the points that we want to explain in this project.
+
++ 
++ 
++ 
++ 
+
 
 ### Plan
 
