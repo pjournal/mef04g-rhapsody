@@ -1,0 +1,44 @@
+---
+title: "Unemployment & Employment Rates in Turkey (2014-2020)"
+author: "Group Rhapsody"
+date: "11/17/2020"
+output: 
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: true
+      smooth_scroll: true
+    toc_depth: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Group Members
+
++ Cem Yüzbaşıoğlu
++ Emre Demirhan
++ Emre Kemal Yurderi
++ Serhan Bayram
++ Umut Turhan
+
+### Brief
+
+Our brief
+
+### Objectives
+
+Our objectives
+
+### Plan
+
+Our plan
+
+### References
+
++ [Ref 1]()
++ [Ref 2]()
++ [Ref 3]()
++ [Ref 4]()
++ [Ref 5]()
