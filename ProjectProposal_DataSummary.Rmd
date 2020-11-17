@@ -29,15 +29,18 @@ We will analyze the change of labor force by educational level, job searching me
 
 We will use three main datasets that were published by TUIK. 
 
-#### Dataset 1 - Labour Force Status by Educational Level
+#### Dataset 1 
+##### Labour Force Status by Educational Level
 
 This dataset includes the number of employed and unemployed people by their educational levels and gender. The data is between January 2014 and August 2020.
 
-#### Dataset 2 - Unemployment by Job Search Methods
+#### Dataset 2 
+##### Unemployment by Job Search Methods
 
 The dataset is grouped by gender and includes job search methods such as; newspaper adverts, direct applications to employer etc. The data is between January 2014 and August 2020.
 
-#### Dataset 3 - Labour force status of higher education graduates by the last graduated  field of education 
+#### Dataset 3 
+##### Labour force status of higher education graduates by the last graduated  field of education 
 
 It consists of the annual numbers of employed and unemployed people by field of education, such as; law, veterinary, engineering etc. The dataset consists of the statistics from 2014 to 2019.
 
@@ -47,10 +50,19 @@ We plan to use different datasets related to the subject in additional research 
 
 Throughout this analysis we defined some objectives. Below you can find all the points that we want to explain in this project.
 
-+ 
-+ 
-+ 
-+ 
++ Comparison of white collar and blue collar workers rate among unemployed and interpretation of this rate
++ Analysis of change in the number of unemployed by months on the basis of occupational group
++ Analysis of occupational group in which the number of unemployed has increased and decreased the most by years
++ Analysis of the number of unemployed in occupational groups by gender
++ Analysis of change in the percentage of the job searching channels by years
++ Analysis of change in the number of job applicants by months
++ Analysis of change in the number of job searching by newspapers
++ Analysis of change in the preference of job searching channels by months
++ Analysis of unemployment by the field of education completed
++ Analysis of employment trends
++ Analysis of unemployment by educational level
++ Analysis of employment in higher education
++ Is there a correlation between the occupational group and job search method?
 
 
 ### Plan
