@@ -1,14 +1,14 @@
 ---
 title: "Unemployment & Employment Rates in Turkey (2014-2020)"
 author: "Group Rhapsody"
-date: "11/17/2020"
+date: "Nov 17, 2020"
 output: 
   html_document:
     toc: true
     toc_float: 
       collapsed: true
       smooth_scroll: true
-    toc_depth: 4
+    toc_depth: 5
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +29,7 @@ We will analyze the change of labor force by educational level, job searching me
 
 #### Datasets
 
-We will use three main datasets that were published by TUIK. 
+We will use three main datasets that were published by TUIK. In case of any need we might use additional datasets. 
 
 ##### 1) Labour Force Status by Educational Level
 
@@ -42,8 +42,6 @@ The dataset is grouped by gender and includes job search methods such as; newspa
 ##### 3) Labour force status of higher education graduates by the last graduated  field of education 
 
 It consists of the annual numbers of employed and unemployed people by field of education, such as; law, veterinary, engineering etc. The dataset consists of the statistics from 2014 to 2019.
-
-We plan to use different datasets related to the subject in additional research as well.
 
 ### Objectives
 
