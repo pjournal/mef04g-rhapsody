@@ -1,4 +1,4 @@
-## Welcome to Group Rhapsody's Progress Journal
+## Rhapsody's Progress Journal
 
 ### Group Members
 - Cem Yüzbaşıoğlu
