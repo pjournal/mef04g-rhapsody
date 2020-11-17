@@ -57,3 +57,5 @@ Our plan
 + [Labour force status of higher education graduates by the last graduated  field of education](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
 + [Employment by educational level](https://biruni.tuik.gov.tr/medas/?kn=72&locale=tr)
 + [Labour force status by educational level](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
+
+[Back to our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
