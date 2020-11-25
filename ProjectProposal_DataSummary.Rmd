@@ -1,0 +1,75 @@
+---
+title: "Unemployment & Employment Rates in Turkey (2014-2020)"
+author: "Group Rhapsody"
+date: "Nov 17, 2020"
+output: 
+  html_document:
+    toc: true
+    toc_float: 
+      collapsed: true
+      smooth_scroll: true
+    toc_depth: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Group Members
+
++ [Cem Yüzbaşıoğlu](https://pjournal.github.io/mef04-cemyzbs/)
++ [Emre Demirhan](https://pjournal.github.io/mef04-demirhanemre/)
++ [Emre Kemal Yurderi](https://pjournal.github.io/mef04-emreyurderi/)
++ [Serhan Bayram](https://pjournal.github.io/mef04-SBMEFBDA/)
++ [Umut Turhan](https://pjournal.github.io/mef04-umutturhan/)
+
+### Brief
+
+We will analyze the change of labor force by educational level, gender, job searching methods and occupational groups of Turkey between the years 2014 and 2020. 
+
+#### Datasets
+
+We will use three main datasets that were published by TUIK. In case of any need we might use additional datasets. 
+
+##### 1) Labour Force Status by Educational Level
+
+This dataset includes the number of employed and unemployed people by their educational levels and gender. The data is between January 2014 and August 2020.
+
+##### 2) Unemployment by Job Search Methods
+
+The dataset is grouped by gender and includes job search methods such as; newspaper adverts, direct applications to employer etc. The data is between January 2014 and August 2020.
+
+##### 3) Labour force status of higher education graduates by the last graduated  field of education 
+
+It consists of the annual numbers of employed and unemployed people by field of education, such as; law, veterinary, engineering etc. The dataset consists of the statistics from 2014 to 2019.
+
+### Objectives
+
+Throughout this analysis we defined some objectives. Below you can find all the points that we want to explain in this project.
+
++ Number of job applicants
++ White collar and blue collar job-seekers
++ Number of unemployed by occupational groups and gender
++ Job searching channel choices and trends
++ Employment & Unemployment by the major field of study
++ Employment & Unemployment by education level
+
+### Plan
+
++ Preparing data to make analysis
++ Using `dplyr` library to get a better understanding of data
++ Using `ggplot2` library to create visuals and to see trends
++ Comparing metrics which might be related to each other and evaluating them
++ Deepening the analysis by adding additional data if necessary
++ Completing the analysis with meaningful insights
+
+
+### Data Sources
+
++ [Labour force status by educational level](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
++ [Unemployment by job search methods](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8)
++ [Labour force status of higher education graduates by the last graduated  field of education](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
++ [Unemployment by occupational group](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
++ [Employment by educational level](https://biruni.tuik.gov.tr/medas/?kn=72&locale=tr)
+
+Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
