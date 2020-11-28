@@ -3,8 +3,6 @@ library(shiny)
 library(tidyverse)
 library(jsonlite)
 library(ggplot2)
-library(sf)
-library(mapview)
 library(DT)
 library(leaflet)
 library(lubridate)
@@ -40,7 +38,7 @@ ui <- fluidPage(
     
     tabsetPanel(
         tabPanel("General Information", 
-                 mapviewOutput("isbikeMap"),
+                 leafletOutput("isbikeMap"),
                  #plotOutput("isbikeHist"), 
                  plotOutput("isbikeCapacity")),
         tabPanel("Current Availability",
@@ -73,14 +71,20 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-    output$isbikeMap <- renderMapview({
+    output$isbikeMap <- renderLeaflet({
 
         map_df <- isbike_df %>%
-            filter(Longtitude != 0 & Latitude != 0) %>%
-            select(StationName, Longtitude, Latitude)
+            filter(Longtitude != 0 & Latitude != 0)
 
-         isbike_map_sf <- st_as_sf(map_df, coords = c("Longtitude", "Latitude"), crs = 4326)
-         mapview(isbike_map_sf, legend = FALSE)
+        leaflet() %>%
+            addProviderTiles("CartoDB.Positron") %>%
+            addCircleMarkers(lng = map_df$Longtitude, lat = map_df$Latitude,
+                             weight = 5, radius = 3,
+                             popup = paste0(map_df$StationName,
+                                            "<br/>Total Capacity: ", map_df$Capacity,
+                                            "<br/>Available Bikes: ", map_df$Available,
+                                            "<br/>Occupied Bikes: ", map_df$Occupied,
+                                            "<br/>Last Connection: ", map_df$LastConnection))
         
     })
     
@@ -110,18 +114,18 @@ server <- function(input, output) {
                    AvailabilityRate <= input$availability[2]) %>%
             filter(Available >= input$available[1], 
                    Available <= input$available[2]) %>%
-            mutate(Available = factor(Available))
+            mutate(AvailableFactor = factor(Available))
         
-        # color_vec <- brewer.pal(n = 11, name = "RdYlGn")
-        # 
-        # new <- color_vec[leaflet_df$Available]
-        # new <- replace(new, is.na(new), "#006837")
-        # 
-        # icons <- awesomeIcons(
-        #     icon = "bicycle",
-        #     iconColor = "white",
-        #     library = "ion"
-        # )
+        color_vec <- brewer.pal(n = 11, name = "RdYlGn")
+
+        new <- color_vec[leaflet_df$AvailableFactor]
+        new <- replace(new, is.na(new), "#006837")
+
+        icons <- awesomeIcons(
+            icon = "bicycle",
+            iconColor = "white",
+            library = "ion"
+        )
         
         leaflet() %>%
             addProviderTiles("CartoDB.Positron") %>%
