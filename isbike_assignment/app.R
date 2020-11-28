@@ -8,6 +8,7 @@ library(mapview)
 library(DT)
 library(leaflet)
 library(lubridate)
+library(RColorBrewer)
 
 #destination <- file.choose()
 
@@ -27,7 +28,8 @@ isbike_df <- final_df %>%
               Longtitude = as.numeric(lon),
               LastConnection = as.POSIXct(sonBaglanti,format='%Y-%m-%dT%H:%M:%S'),
               LastConnectionDay = day(LastConnection)) %>%
-    mutate(AvailabilityRate = replace(AvailabilityRate, is.na(AvailabilityRate), 0))
+    mutate(AvailabilityRate = replace(AvailabilityRate, is.na(AvailabilityRate), 0),
+           Latitude = replace(Latitude, is.na(Latitude), 0))
 
 
 # Define UI for application that draws a histogram
@@ -38,7 +40,7 @@ ui <- fluidPage(
     
     tabsetPanel(
         tabPanel("General Information", 
-                 mapviewOutput("isbikeMap"), 
+                 mapviewOutput("isbikeMap"),
                  #plotOutput("isbikeHist"), 
                  plotOutput("isbikeCapacity")),
         tabPanel("Current Availability",
@@ -62,7 +64,7 @@ ui <- fluidPage(
                 ),
         
                 # Show a plot of the generated distribution
-                mainPanel(DTOutput("isbikeTable"))
+                mainPanel(leafletOutput("leafletMap"), DTOutput("isbikeTable"))
                 )
     )
     )
@@ -72,38 +74,15 @@ ui <- fluidPage(
 server <- function(input, output) {
 
     output$isbikeMap <- renderMapview({
-        
-        non_na_df <- isbike_df
-        
-        non_na_df$Latitude[non_na_df$Latitude == ""] = "0"
-        non_na_df$Longtitude[non_na_df$Longtitude == ""] = "0"
 
-        map_df <- non_na_df %>%
-            #filter(Available >= input$available[1]) %>%
-            #filter(Available <= input$available[2]) %>%
-            filter(!Longtitude %in% "0") %>%
-            filter(!Latitude %in% "0") %>%
+        map_df <- isbike_df %>%
+            filter(Longtitude != 0 & Latitude != 0) %>%
             select(StationName, Longtitude, Latitude)
 
          isbike_map_sf <- st_as_sf(map_df, coords = c("Longtitude", "Latitude"), crs = 4326)
          mapview(isbike_map_sf, legend = FALSE)
         
     })
-    
-    # output$isbikeHist <- renderPlot({
-    #     
-    #     hist_vector <- isbike_df %>% 
-    #         transmute(TotalCapacity = Available + Occupied)
-    #     
-    #     hist_vector <- as.numeric(unlist(hist_vector))
-    #         
-    #     
-    #     bins <- seq(min(hist_vector), max(hist_vector), length.out = 30)
-    #     
-    #     # draw the histogram with the specified number of bins
-    #     hist(hist_vector, breaks = bins, col = 'darkgray', border = 'white')
-    #     
-    # })
     
     output$isbikeCapacity <- renderPlot({
         
@@ -114,14 +93,47 @@ server <- function(input, output) {
             mutate(Capacity = as.character(Capacity)) %>%
             select(Capacity, Percentage)
             
-            ggplot(plot_df, aes(x = reorder(Capacity, Percentage), y = Percentage)) + 
-                geom_bar(stat = "identity", aes(fill=Capacity)) + 
-                coord_flip() +
-                labs(title = "Capacity Distribution of Stations", x = "Capacity", y = "") + 
-                theme(legend.position = "none", plot.title = element_text(hjust = 0.5))
+        ggplot(plot_df, aes(x = reorder(Capacity, Percentage), y = Percentage)) + 
+            geom_bar(stat = "identity", aes(fill=Capacity)) + 
+            coord_flip() +
+            labs(title = "Capacity Distribution of Stations", x = "Capacity", y = "") + 
+            theme(legend.position = "none", plot.title = element_text(hjust = 0.5))
         
         
     })
+    
+    output$leafletMap <- renderLeaflet({
+        
+        leaflet_df <- isbike_df %>% 
+            filter(Longtitude != 0 & Latitude != 0) %>%
+            filter(AvailabilityRate >= input$availability[1], 
+                   AvailabilityRate <= input$availability[2]) %>%
+            filter(Available >= input$available[1], 
+                   Available <= input$available[2]) %>%
+            mutate(Available = factor(Available))
+        
+        # color_vec <- brewer.pal(n = 11, name = "RdYlGn")
+        # 
+        # new <- color_vec[leaflet_df$Available]
+        # new <- replace(new, is.na(new), "#006837")
+        # 
+        # icons <- awesomeIcons(
+        #     icon = "bicycle",
+        #     iconColor = "white",
+        #     library = "ion"
+        # )
+        
+        leaflet() %>%
+            addProviderTiles("CartoDB.Positron") %>%
+            addAwesomeMarkers(lng = leaflet_df$Longtitude, lat = leaflet_df$Latitude,
+                              icon = icons,
+                              popup = paste0(leaflet_df$StationName,
+                                             "<br/>Total Capacity: ", leaflet_df$Capacity,
+                                             "<br/>Available Bikes: ", leaflet_df$Available,
+                                             "<br/>Occupied Bikes: ", leaflet_df$Occupied,
+                                             "<br/>Last Connection: ", leaflet_df$LastConnection))
+        
+    })  
     
     output$isbikeTable <- renderDT({
         
