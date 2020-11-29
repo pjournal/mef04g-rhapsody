@@ -9,3 +9,9 @@
 
 ### Unemployment & Employment Rates in Turkey (2014-2020)
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
+
+### Group Assignments
+#### isbike Assignment
+- [Shiny Codes]()
+- [Shiny App](https://serhanbayrambda.shinyapps.io/isbike_assignment/)
+s
