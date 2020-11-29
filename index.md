@@ -14,5 +14,5 @@
 
 ### Group Assignments
 #### isbike Assignment
-- [Shiny Codes]()
+- [Shiny Codes](isbike_assignment/ShinyCodes.html)
 - [Shiny App](https://serhanbayrambda.shinyapps.io/isbike_assignment/)
