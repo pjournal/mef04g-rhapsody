@@ -7,11 +7,12 @@
 - [Serhan Bayram](https://pjournal.github.io/mef04-SBMEFBDA/)
 - [Umut Turhan](https://pjournal.github.io/mef04-umutturhan/)
 
-### Unemployment & Employment Rates in Turkey (2014-2020)
+
+### Group Project
+#### Unemployment & Employment Rates in Turkey (2014-2020)
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
 
 ### Group Assignments
 #### isbike Assignment
 - [Shiny Codes]()
 - [Shiny App](https://serhanbayrambda.shinyapps.io/isbike_assignment/)
-s
