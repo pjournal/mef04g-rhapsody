@@ -1,0 +1,240 @@
+
+library(shiny)
+library(tidyverse)
+library(jsonlite)
+library(ggplot2)
+library(DT)
+library(leaflet)
+library(lubridate)
+
+
+my_df <- readRDS("isbike_20201118.rds")
+json_df <- fromJSON(my_df)
+final_df <- json_df[["dataList"]]
+
+
+isbike_df <- final_df %>% 
+    transmute(StationNo = as.integer(istasyon_no), 
+              StationName = adi, 
+              Available = as.integer(bos),
+              Occupied = as.integer(dolu),
+              Capacity = Available + Occupied,
+              AvailabilityRate = round((Available / Capacity * 100), 1),
+              Latitude = as.numeric(lat),
+              Longitude = as.numeric(lon),
+              LastConnection = as.POSIXct(sonBaglanti,format='%Y-%m-%dT%H:%M:%S'),
+              LastConnectionDay = day(LastConnection)) %>%
+    mutate(AvailabilityRate = replace(AvailabilityRate, is.na(AvailabilityRate), 0),
+           Latitude = replace(Latitude, is.na(Latitude), 0)) %>%
+    mutate(Side = ifelse(between(StationNo, 1001, 1898),"Anatolia",
+                         ifelse(between(StationNo, 1900, 1999),"Test","Europe")))
+
+isbike_df$Side[isbike_df$StationName == "Dragos Şehir Üniversitesi"] <- "Anatolia"
+isbike_df$Side[isbike_df$StationName %in% 
+                   c("Rönepark Sahil","Aqua Florya","Florya Sosyal Tesisler 1",
+                     "Florya Sosyal Tesisler 2","Güneş Plajı")] <- "Europe"
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+    
+    # Application title
+    titlePanel("isbike Stations"),
+    
+    tabsetPanel(
+        tabPanel("General Information",
+                 fluidRow(
+                     column(6,
+                            h2("Rhapsody Group Assignment"),
+                            h3("Summary"),
+                            br(),
+                            div("The data is provided by ", code(a("IBB Open Data Portal", href="https://data.ibb.gov.tr")), " and contains 
+                            information about Isbike stations' coordinates, availability status, station names and last connection time."),
+                            br(),
+                            div(" The glimpse of the data is as follows;"),
+                            br(),
+                            tags$li("Data set consists of 199 rows and 9 columns."),
+                            tags$li("There are 85 stations in the Anatolian side, 111 stations in the European side and 3 test stations."),
+                            tags$li("59% of the stations have 15 capacity. Only 2 stations have the highest capacity with 30, which are located in Florya."),
+                            tags$li("In the dataset, IsActive field is 1 for every station. However, 15 stations have earlier last connection times. Therefore, these stations should be checked in order to prevent any possible problems."),
+                            br(),
+                            hr(),
+                            plotOutput("isbikeCapacity"),
+                            ),
+                     column(6,
+                            leafletOutput("isbikeMap"),
+                            hr(),
+                            plotOutput("pie")))),
+        tabPanel("Current Availability",
+                 sidebarLayout(
+                     sidebarPanel(
+                         em("Click on the dots in order to see more information  about the station."),
+                         sliderInput("available",
+                                     "Available Bikes:",
+                                     min = min(isbike_df$Available),
+                                     max = max(isbike_df$Available),
+                                     value = c(min(isbike_df$Available), max(isbike_df$Available)),
+                                     step = 1),
+                         sliderInput("availability",
+                                     "Availability Rate %:",
+                                     min = min(isbike_df$AvailabilityRate),
+                                     max = max(isbike_df$AvailabilityRate),
+                                     value = c(min(isbike_df$AvailabilityRate), max(isbike_df$AvailabilityRate)),
+                                     step = 5),
+                         checkboxInput("Anadolu", "Anatolian Side", TRUE),
+                         checkboxInput("Avrupa", "European Side", TRUE),
+                         checkboxInput("Test", "Test Stations", TRUE),
+                         em("Latitude and Longitude values are assigned for test stations in order to create a better map visual.")
+                     ),
+                     
+                     # Show a plot of the generated distribution
+                     mainPanel(leafletOutput("leafletMap"), DTOutput("isbikeTable"))
+                 )
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+    
+    output$isbikeMap <- renderLeaflet({
+
+        map_df <- isbike_df %>%
+            filter(Longitude != 0 & Latitude != 0)
+        
+        leaflet() %>%
+            addProviderTiles("CartoDB.Positron") %>%
+            addCircleMarkers(lng = map_df$Longitude, lat = map_df$Latitude,
+                             weight = 5, radius = 2, opacity = 1,
+                             color = ifelse(map_df$Available < 3,"#D73027",
+                                            ifelse(map_df$Available < 6, "#FC8D59",
+                                                   ifelse(map_df$Available < 9, "#41AB5D",
+                                                          ifelse(map_df$Available < 12, "#238B45", 
+                                                                 ifelse(map_df$Available < 15, "#006D2C", "#00441B"))))),
+                             popup = paste0(map_df$StationName,
+                                            "<br/>Total Capacity: ", map_df$Capacity,
+                                            "<br/>Available Bikes: ", map_df$Available,
+                                            "<br/>Occupied Bikes: ", map_df$Occupied,
+                                            "<br/>Last Connection: ", map_df$LastConnection)) %>%
+            addLegend(colors = c("#D73027", "#FC8D59", "#41AB5D", "#238B45", "#006D2C", "#00441B"), 
+                      labels = c("0-2","3-5","6-8","9-11","12-14","15+"),
+                      opacity = 1,
+                      title = "Available Bikes")
+        
+    })
+    
+    output$isbikeCapacity <- renderPlot({
+        
+        plot_df <- isbike_df %>% 
+            filter(Capacity > 0) %>%
+            count(Capacity, name = "Count") %>%
+            mutate(Percentage = round(Count / sum(Count) * 100, 0)) %>%
+            mutate(Capacity = as.character(Capacity)) %>%
+            select(Capacity, Percentage)
+            
+        ggplot(plot_df, aes(x = reorder(Capacity, Percentage), y = Percentage)) + 
+            geom_bar(stat = "identity", aes(fill=Capacity)) + 
+            coord_flip() +
+            labs(title = "Capacity Distribution of Stations", x = "Capacity", y = "") + 
+            theme(legend.position = "none", plot.title = element_text(hjust = 0.5))
+        
+    })
+    
+    output$pie <- renderPlot({
+        
+        station_sides <- isbike_df %>% 
+            count(Side, name = "Count") %>%
+            mutate(Percentage = round(Count / sum(Count) * 100, 1)) %>%
+            select(Side, Percentage)
+        
+        ggplot(data=station_sides, aes(x="", y=Percentage, fill=Side)) +
+            geom_bar(width = 1, stat="identity") + 
+            coord_polar("y", start = 0) + 
+            geom_text(aes(label = paste0(Percentage, "%")), color = "white", position = position_stack(vjust = 0.5)) +
+            labs(title="Percentage of Stations Based on Location") +
+            theme_void()
+        
+    })
+    
+    output$leafletMap <- renderLeaflet({
+        
+        leaf_df <- isbike_df
+        
+        leaf_df$filtre <- 0
+        
+        if (input$Anadolu == TRUE){
+            leaf_df$filtre[(leaf_df$Side == "Anatolia")] <- 1
+        }
+        
+        if (input$Avrupa == TRUE){
+            leaf_df$filtre[(leaf_df$Side == "Europe")] <- 1
+        }
+        
+        if (input$Test == TRUE){
+            leaf_df$filtre[(leaf_df$Side == "Test")] <- 1
+            leaf_df$Latitude[(leaf_df$Side == "Test")] <- 40.991014
+            leaf_df$Longitude[(leaf_df$Side == "Test")] <- 28.994233
+        }
+        
+        leaflet_df <- leaf_df %>% 
+            filter(filtre == 1) %>%
+            filter(Longitude != 0 & Latitude != 0) %>%
+            filter(AvailabilityRate >= input$availability[1], 
+                   AvailabilityRate <= input$availability[2]) %>%
+            filter(Available >= input$available[1], 
+                   Available <= input$available[2])
+        
+            leaflet() %>%
+                addProviderTiles("CartoDB.Positron") %>%
+                addCircleMarkers(lng = leaflet_df$Longitude,
+                                 lat = leaflet_df$Latitude,
+                                 label = leaflet_df$StationName, 
+                                 color = ifelse(leaflet_df$Available < 3,"#D73027",
+                                                ifelse(leaflet_df$Available < 6, "#FC8D59",
+                                                       ifelse(leaflet_df$Available < 9, "#41AB5D",
+                                                              ifelse(leaflet_df$Available < 12, "#238B45", 
+                                                                     ifelse(leaflet_df$Available < 15, "#006D2C", "#00441B"))))),
+                                 weight = 5, opacity = 1, 
+                                 radius = 2, 
+                                 stroke = TRUE,
+                                 popup = paste0(leaflet_df$StationName,
+                                                "<br/>Total Capacity: ", leaflet_df$Capacity,
+                                                "<br/>Available Bikes: ", leaflet_df$Available,
+                                                "<br/>Occupied Bikes: ", leaflet_df$Occupied,
+                                                "<br/>Last Connection: ", leaflet_df$LastConnection)) %>%
+                addLegend(colors = c("#D73027", "#FC8D59", "#41AB5D", "#238B45", "#006D2C", "#00441B"), 
+                          labels = c("0-2","3-5","6-8","9-11","12-14","15+"),
+                          opacity = 1,
+                          title = "Available Bikes")
+        
+    })  
+    
+    output$isbikeTable <- renderDT({
+        
+        dt_df <- isbike_df
+        
+        dt_df$filtre <- 0
+        
+        if (input$Anadolu == TRUE){
+            dt_df$filtre[(dt_df$Side == "Anatolia")] <- 1
+        }
+        
+        if (input$Avrupa == TRUE){
+            dt_df$filtre[(dt_df$Side == "Europe")] <- 1
+        }
+        
+        if (input$Test == TRUE){
+            dt_df$filtre[(dt_df$Side == "Test")] <- 1
+        }
+        
+        table_df <- dt_df %>% 
+            filter(filtre == 1) %>%
+            filter(Available >= input$available[1], Available <= input$available[2]) %>%
+            filter(AvailabilityRate >= input$availability[1], AvailabilityRate <= input$availability[2]) %>%
+            select(StationNo, StationName, Available, Occupied, Capacity, AvailabilityRate) %>%
+            arrange(desc(Available), StationName)
+        
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
