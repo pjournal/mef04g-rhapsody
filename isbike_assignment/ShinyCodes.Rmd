@@ -1,4 +1,17 @@
+---
+title: "isbike Assignment Codes"
+author: "Group Rhapsody"
+date: "Nov 29, 2020"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Importing Necessary Libraries
+
+```{r, eval=FALSE}
 library(shiny)
 library(tidyverse)
 library(jsonlite)
@@ -6,8 +19,11 @@ library(ggplot2)
 library(DT)
 library(leaflet)
 library(lubridate)
+```
 
+### Reading, Preparing and Cleaning Data
 
+```{r, eval=FALSE}
 my_df <- readRDS("isbike_20201118.rds")
 json_df <- fromJSON(my_df)
 final_df <- json_df[["dataList"]]
@@ -34,6 +50,12 @@ isbike_df$Side[isbike_df$StationName %in%
                    c("Rönepark Sahil","Aqua Florya","Florya Sosyal Tesisler 1",
                      "Florya Sosyal Tesisler 2","Güneş Plajı")] <- "Europe"
 
+```
+
+### Shiny Codes
+
+```{r, eval=FALSE}
+# UI Part
 ui <- fluidPage(
     
     titlePanel("isbike Stations"),
@@ -91,6 +113,7 @@ ui <- fluidPage(
 )
 
 
+# Server Part
 server <- function(input, output) {
     
     output$isbikeMap <- renderLeaflet({
@@ -235,3 +258,13 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+```
+
+
+### References
+
++ [Sorting Values in Bar Plot](https://sebastiansauer.github.io/ordering-bars/)
++ [Creating & Modifying Map Visuals with Leaflet](https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/leaflet-r/)
+
+
+Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
