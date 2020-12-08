@@ -12,7 +12,7 @@ output:
     toc_depth: 5
 ---
 
-### Importing Necessary Libraries
+## Importing Necessary Libraries
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -25,46 +25,46 @@ library(reshape2)
 library(knitr)
 ```
 
-### Reading the Datasets
+## Reading the Datasets
 
 First dataset we used is the Unemployed Job Searching People by the Channel.
 
 ```{r}
-job_search_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/İş aradıkları kanala göre işsizler.xls", range = "TÜRKİYE!A6:P91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
+job_search_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/search_channel.xls", range = "TÜRKİYE!A6:P91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
 
-job_search_male <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/İş aradıkları kanala göre işsizler.xls", range = "TÜRKİYE!R6:AG91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
+job_search_male <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/search_channel.xls", range = "TÜRKİYE!R6:AG91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
 
-job_search_female <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/İş aradıkları kanala göre işsizler.xls", range = "TÜRKİYE!AI6:AX91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
+job_search_female <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/search_channel.xls", range = "TÜRKİYE!AI6:AX91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
 ```
 
 Second dataset is Employed & Unemployed by Educational Level.
 
 ```{r}
-educational_level_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/Eğitim durumuna göre işgücü durumu.xls", range = "TÜRKİYE!A7:Q92", col_names = c("year", "month", "lf_illeterate", "lf_less_than_hs", "lf_highschool", "lf_voc_hs", "lf_higher_ed","emp_illeterate", "emp_less_than_hs", "emp_highschool", "emp_voc_hs", "emp_higher_ed","unemp_illeterate", "unemp_less_than_hs", "unemp_highschool", "unemp_voc_hs", "unemp_higher_ed" ))
+educational_level_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/educational_level.xls", range = "TÜRKİYE!A7:Q92", col_names = c("year", "month", "lf_illeterate", "lf_less_than_hs", "lf_highschool", "lf_voc_hs", "lf_higher_ed","emp_illeterate", "emp_less_than_hs", "emp_highschool", "emp_voc_hs", "emp_higher_ed","unemp_illeterate", "unemp_less_than_hs", "unemp_highschool", "unemp_voc_hs", "unemp_higher_ed" ))
 ```
 
 Third dataset is Unemployment by occupational group.
 
 ```{r}
-occ_group_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/Aranılan meslek grubuna göre işsizler.xls", range = "TÜRKİYE!A7:L92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+occ_group_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/occupational_group.xls", range = "TÜRKİYE!A7:L92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
   mutate(month = gsub("^.*?- ", "", month))
 
-occ_group_male <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/Aranılan meslek grubuna göre işsizler.xls", range = "TÜRKİYE!N7:Y92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+occ_group_male <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/occupational_group.xls", range = "TÜRKİYE!N7:Y92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
   mutate(month = gsub("^.*?- ", "", month))
 
-occ_group_female <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/Aranılan meslek grubuna göre işsizler.xls", range = "TÜRKİYE!AA6:AL91", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+occ_group_female <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/occupational_group.xls", range = "TÜRKİYE!AA6:AL91", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
   mutate(month = gsub("^.*?- ", "", month))
 ```
 
 Fourth dataset is Labour force status of higher education graduates by the last graduated  field of education.
 
 ```{r}
-last_graduated_major <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/Yüksekokul ve fakülte mezunlarının en son mezun oldukları alana göre işgücü durumu.xls", range = "TURKIYE!A6:Y41", col_names = c("year", "statistics", "higher_ed_grad", "education", "arts", "humanities", "languages", "social_sci", "journalism", "business", "law", "biology_env_related_sci", "physical_sci", "math_stat", "info_communication_tech", "engineering", "manufacturing_processing", "architecture_construction", "agriculture_forestry_fishery", "veterinary", "health", "welfare", "personal_services", "occupational_health_transport_services", "security_services"))
+last_graduated_major <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/major_field.xls", range = "TURKIYE!A6:Y41", col_names = c("year", "statistics", "higher_ed_grad", "education", "arts", "humanities", "languages", "social_sci", "journalism", "business", "law", "biology_env_related_sci", "physical_sci", "math_stat", "info_communication_tech", "engineering", "manufacturing_processing", "architecture_construction", "agriculture_forestry_fishery", "veterinary", "health", "welfare", "personal_services", "occupational_health_transport_services", "security_services"))
 ```
 
-### Exploratory Data Analysis
+## Exploratory Data Analysis
 
-#### Overview Regarding Unemployment in Turkey (2014-2020)
+### Overview Regarding Unemployment in Turkey (2014-2020)
 
 As observed, there is an upward trend in unemployment from 2014 to 2020 in Turkey. Unemployment was 4.3 million as of January 2020 while it was 2.8 million in Jan 2014. In 2018, unemployment has soared enormously , which might be related to the sanctions imposed by US.
 
@@ -85,16 +85,16 @@ ggplot(occ_group_overall_m, aes(date, total_unemployed)) +
     x = "Date",
     y = "Unemployment (in thousands)") +
   theme(axis.ticks.x = element_blank(),
-        axis.text.x = element_text(angle = 90, size = 5))
+        axis.text.x = element_text(angle = 90, size = 5,  hjust = 1))
 ```
 
 In the next analysis, we'll examine whether the unemployment differentiate by gender.
 
-#### Unemployment by Gender
+### Unemployment by Gender
 
 Both genders have similar upward trend over time. However, males have higher unemployment than females. We'll be covering this difference deeply in the part, Unemployment by Occupational Group and Gender.
 
-```{r unemployment by gender}
+```{r unemployment by gender, fig.width=10}
 occ_group_male_y <- occ_group_male %>%
   filter(month == "Annual") %>%
   mutate(year = factor(year))
@@ -142,13 +142,14 @@ levels(total_og_df2$gender) <- c("Female", "Male")
 ggplot(total_og_df2, aes(x = year ,y = total, group = gender, color = gender)) +
   geom_line() +
   labs(x = "Year",
-         y = "Unemployment",
+         y = "Unemployment (in thousands)",
          title = "Unemployment by Gender",
-         color = "Gender")
+         color = "Gender") +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 
-```{r}
+```{r, fig.width=10}
 job_search_female$month <- str_split_fixed(job_search_female$month, " - ", 2)[,2]
 job_search_male$month <- str_split_fixed(job_search_male$month, " - ", 2)[,2]
 
@@ -167,25 +168,25 @@ unemp_merged <-merge(unemp_gr_female,unemp_gr_male, by="month_year", all=TRUE, s
 unemp_merged <- unemp_merged %>%
   rename(female=total_unemployed.x, male=total_unemployed.y)
 
-#Grafikte x ekseni alfabetik sıraya göre değil, tarih sırasına göre gelmesi için yapılan dönüşüm
 unemp_merged$month_year <- as.character(unemp_merged$month_year)
 unemp_merged$month_year <- factor(unemp_merged$month_year, level=unemp_merged$month_year)
 
-#Yıllara göre toplam işsizliğin cinsiyete göre dağılımı
 ggplot(unemp_merged, aes(x=factor(month_year))) +
-  geom_line(aes(y=female, color="female", group=1))+
-  geom_line(aes(y=male, color="male", group=1))+
-  theme(axis.text.x = element_text(angle=90, size=5))+
+  geom_line(aes(y=female, color="Female", group=1))+
+  geom_line(aes(y=male, color="Male", group=1))+
+  theme(axis.text.x = element_text(angle=90, size=5, hjust = 1),
+        plot.title = element_text(hjust = 0.5))+
   labs(title = "Unemployment by Gender Over the Years",
        x="Year",
-       y="Unemployment")
+       y="Unemployment (in thousands)",
+       color="Gender")
 ```
 
-#### Seasonality Effect on Unemployment
+### Seasonality Effect on Unemployment
 
 There are two peaks in a year on average: Winter and Summer. Besides the seasonal jobs, graduation might also be the contributor to these peaks.
 
-```{r unemployment with seasonality effect}
+```{r unemployment with seasonality effect, fig.width=10}
 ggplot(occ_group_overall_m, aes(factor(month), total_unemployed, group=year, color=year)) + 
   geom_line() +
   labs(
@@ -193,13 +194,14 @@ ggplot(occ_group_overall_m, aes(factor(month), total_unemployed, group=year, col
     y = "Unemployment (in thousands)",
     title = "Unemployment by Seasonality",
     color = "Year") + 
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        plot.title = element_text(hjust = 0.5))
 
 ```
 
-#### Unemployment by Occupational Group
+### Unemployment by Occupational Group
 
-From 2014 to 2019, total unemployment has increased by %57. Occupational groups with the highest growth in unemployment are professionals (%108), elementary occupations (%64) and technicians and associate professionals (%55) ; whereas skilled agricultural, forestry and fishery workers (%0), managers (%20) and clerical support workers (%26) are the ones with the lowest growth. The graph below displays the distribution of unemployment by occupational group from 2014 to 2019. The highest proportion of unemployment in 2019 belongs to service and sales workers (%24 of all unemployment), followed by elementary occupations (%19) and craft and related trades workers (%14).
+From 2014 to 2019, total unemployment has increased by 57%. Occupational groups with the highest growth in unemployment are professionals (108%), elementary occupations (64%) and technicians and associate professionals (55%) ; whereas skilled agricultural, forestry and fishery workers (0%), managers (20%) and clerical support workers (26%) are the ones with the lowest growth. The graph below displays the distribution of unemployment by occupational group from 2014 to 2019. The highest proportion of unemployment in 2019 belongs to service and sales workers (24% of all unemployment), followed by elementary occupations (19%) and craft and related trades workers (14%).
 
 ```{r unemployment by occupational group,  fig.width=10}
 occ_group_overall_y <- occ_group_overall %>%
@@ -231,16 +233,13 @@ ggplot(og_df_rate, aes(x = year_x, y = Percentage)) +
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5)) +
   xlab(label = "Year") +
   scale_y_continuous(limits = c(0,30))
-
-
-
 ```
 
-#### Unemployment by Occupatipational Group and Gender
+### Unemployment by Occupational Group and Gender
 
-In the following graph, the average unemployment between 2014 and 2019 are taken into account rather than displaying bars for each year. According to graph, occupational groups with the highest male percentage are plant and machine operators and assemblers (%92), skilled agricultural, forestry and fishery workers (%91) and craft and related trades workers (%91). Occupational groups with the lowest percentage of male participation are clerical support workers (%34), professionals (%41) and technicians and associate professionals (%52).
+In the following graph, the average unemployment between 2014 and 2019 are taken into account rather than displaying bars for each year. According to graph, occupational groups with the highest male percentage are plant and machine operators and assemblers (92%), skilled agricultural, forestry and fishery workers (91%) and craft and related trades workers (91%). Occupational groups with the lowest percentage of male participation are clerical support workers (34%), professionals (41%) and technicians and associate professionals (52%).
 
-An interesting point is that even there are some occupational groups requiring almost no physical power, but there are still huge differences between male and female participation. For instance, %74 of unemployed managers are males where as %60 of all unemployed are males. The difference between these two percentage might have several reasons. One reason might be linked to the educational level of unemployed. Another reason might be linked to the willingness to work after education since willingness to work is a criteria to decide whether a person is unemployed or not. Last but not least, pregnancy and raising child might be another reason that keeps the female participation lower.
+An interesting point is that even there are some occupational groups requiring almost no physical power, but there are still huge differences between male and female participation. For instance, 74% of unemployed managers are males where as 60% of all unemployed are males. The difference between these two percentage might have several reasons. One reason might be linked to the educational level of unemployed. Another reason might be linked to the willingness to work after education since willingness to work is a criteria to decide whether a person is unemployed or not. Last but not least, pregnancy and raising child might be another reason that keeps the female participation lower.
 
 ```{r percentage of unemployed by occ group and gender, fig.width=10}
 
@@ -252,22 +251,23 @@ total_og_df4$gender <- as.factor(total_og_df4$gender)
 levels(total_og_df4$gender) <- c("Female", "Male")
 
 total_og_df4$group <- as.factor(total_og_df4$group)
-levels(total_og_df4$group) <- c("Skilled agricultural, forestry and fishery workers", "Clerical support workers", "Elemantary occupations", "Managers", "Plant and machine operators and assemblers", "Professionals", "Service and sales workers", "Technicians and associate professionals", "Craft and related trades workers")
+levels(total_og_df4$group) <- c("Agricul. & Forestry & Fishery", "Clerical Support", "Elemantary Occu.", "Managers", "Plant & Machine Oper./Assmb.", "Professionals", "Service & Sales", "Technicians & Assoc. Prof.", "Craft & Related Trades")
 
 ggplot(total_og_df4, aes(group, average_p_year, fill = gender)) +
   geom_col(position = "fill") + 
-  labs(x = "Occupational Group",
+  labs(x = "",
        y = "Percentage",
        title = "Unemployment by Occupational Group and Gender",
        fill = "Gender") +
-  theme(axis.text.x = element_text(angle = 60, size = 10, vjust = 1, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, size = 10,  hjust = 1),
+        plot.title = element_text(hjust = 0.5))
 ```
 
 ### Labour Force Status of Higher Education Graduates by Their Major
 
 In the following table, unemployment rate for the graduates of the corresponding majors are provided. The last column in the table called 'trend' represents the percentage of change in unemployment rate from 2014 to 2019.
 
-Top 5 majors with the highest trend in unemployment rate are represented in the graph. Graduates of health have the highest increase in unemployment rate proportionally even though it has been one of the majors with the lowest unemployment rate. Unemployment rate for the graduates of health are 3.14 and 11.4 for 2014 and 2020, respectively. Therefore, the unemployment rate is raised by %252 in comparison with 2014. Despite this, health still remained its position as one of the lowest unemployment rate among the other major.
+Top 5 majors with the highest trend in unemployment rate are represented in the graph. Graduates of health have the highest increase in unemployment rate proportionally even though it has been one of the majors with the lowest unemployment rate. Unemployment rate for the graduates of health are 3.14 and 11.4 for 2014 and 2020, respectively. Therefore, the unemployment rate is raised by 252% in comparison with 2014. Despite this, health still remained its position as one of the lowest unemployment rate among the other major.
 
 5 majors with the lowest trend in unemployment rate are represented in the second graph. Graduates of journalism and information have the lowest increase, even negative increase, in unemployment rate proportionally. However, after considering that it has been the major with the highest unemployment rate in 2014, it can be assumed that the number of people interested in journalism and information might started to take alternative majors into account.
 
@@ -286,7 +286,7 @@ major_issizoran_wide <- spread(deneme_major_issizoran, year, value) %>%
 major_issizoran_wide$trend <- round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
 
 major_issizoran_wide$major <- as.factor(major_issizoran_wide$major)
-levels(major_issizoran_wide$major) <- c("Agriculture, forestry and fishery","Architecture and construction", "Arts", "Biology, environ-ment and related sciences", "Business and administration", "Education", "Engineering and engineering trades", "Health", "Higher education graduate", "Humanities", "Information and communi-cation technologies", "Journalism and information", "Languages", "Law", "Manufacturing and processing", "Mathematics and statistics", "Occupational health and transport services", "Personal services", "Physical science", "Security services", "Social and behavioural sciences", "Veterinary", "Welfare (Social services)")
+levels(major_issizoran_wide$major) <- c("Agriculture, forestry and fishery","Architecture and construction", "Arts", "Biology & Env. Sci.", "Business & Admin.", "Education", "Engineering and engineering trades", "Health", "Higher education graduate", "Humanities", "Info. & Comm. Tech.", "Journalism & Info.", "Languages", "Law", "Manufacturing and processing", "Mathematics and statistics", "Occupational health and transport services", "Personal Services", "Physical science", "Security Services", "Social and behavioural sciences", "Veterinary", "Welfare (Social services)")
 
 major_top5 <- major_issizoran_wide %>%
   top_n(5, trend)
@@ -299,19 +299,21 @@ kable(major_issizoran_wide)
 
 ggplot(major_top5, aes(factor(major, levels = major), trend, fill = major)) +
   geom_col(position = "dodge") +
-  theme(legend.position = "none")  +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))  +
   guides(fill=guide_legend(title="Major")) +
-  labs(x = "Major",
+  labs(x = "",
        y = "Percentage of Change from 2014 to 2019",
        title = "Top 5 Major by Unemployment Rate Trend")
 
 ggplot(major_last5, aes(factor(major, levels = major), trend, fill = major)) +
   geom_col(position = "dodge") +
-  theme(legend.position = "none")  +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))  +
   guides(fill=guide_legend(title="Major")) +
-  labs(x = "Major",
+  labs(x = "",
        y = "Percentage of Change from 2014 to 2019",
-       title = "Least 5 Major by Unemployment Rate Trend")
+       title = "Lowest 5 Major by Unemployment Rate Trend")
 ```
 
 
@@ -327,7 +329,7 @@ Other: Job searching methods that cannot be categorized
 
 In these six charts, different job searching methods were analyzed between the years 2014 and 2019. The percentage change in direct job applications, asking for a job to relatives and applications by newspapers were decreasing last six years. The decline in direct application may be because of fall in new job oppurtunities in companies in these period. Moreover, It is observed that the rate of job search with newspapers has decreased due to the shift to online channels. On the other hand, It is clearly seen that jop applications by Employment Agencies and Turkish Employment Office has increased last six years. The main explanation for this increase among methods can be summarized by those who cannot find a job by their own effort, apply for a job through ISKUR or other private employment agencies. Among these six job searching methods, the biggest percentage change can be seen in application through Turkish Employment Office (ISKUR) where percentage was 14.2% in 2014 and rose 24.3% in 2019.
 
-```{r}
+```{r, fig.width=10}
 
 job_search_overall_c <- job_search_overall %>%
   mutate(month = gsub("^.*?- ", "", month)) %>%
@@ -366,28 +368,23 @@ ggplot(js_df_rate, aes(x = Year, y = Percentage)) +
   scale_y_continuous(limits = c(0,40))
 ```
 
+### Turkish Employment Office & Employment Agencies
 
-```{r}
+```{r, fig.width=10}
 annual_jobsearch <- filter(job_search_overall, grepl("Annual", month))
 
 annual_jobsearch_melt <- annual_jobsearch %>%
   select(year, month, total_unemployed, to_employers, to_relatives, to_emp_office, to_emp_agencies, to_newspaper, insert_ad_to_newspaper, take_interview, look_place_equip_to_est_bus, look_credit_license_to_est_bus, wait_call_from_emp_office, wait_result_of_app, wait_result_of_comp_for_public_sec, others)%>%
   gather(key="type", value = "value", -month, -year)
 
-```
 
-```{r}
 job_search_overall$month <- str_split_fixed(job_search_overall$month, " - ", 2)[,2]
 
 monthly_jobsearch <- filter(job_search_overall, !grepl("Annual", month))
 
 unemp_gr<-monthly_jobsearch%>%
   transmute(month_year = paste(year, month, sep = " "), total_unemployed)
-```
 
-### İŞKUR ile özel istihdam bürolarının yıllara göre durumları
-
-```{r}
 
 applied_office_types<- monthly_jobsearch %>%
   transmute(month_year = paste(year, month, sep = " "), to_emp_office, to_emp_agencies)
@@ -395,95 +392,80 @@ applied_office_types<- monthly_jobsearch %>%
 applied_office_types_melted <- applied_office_types %>%
   melt(id.vars="month_year", variable.name= "Office_Type", value.name="Value")
 
-
-#Grafikte x ekseni alfabetik sıraya göre değil, tarih sırasına göre gelmesi için yapılan dönüşüm
 applied_office_types$month_year <- as.character(applied_office_types$month_year)
 applied_office_types$month_year <- factor(applied_office_types$month_year, level=applied_office_types$month_year)
 
-#İş arama kurumlarından devlet ve özel kurumların yıllara göre popülaritesi
 ggplot(applied_office_types, aes(x=factor(month_year))) +
-  geom_line(aes(y=to_emp_office, color="Employee office", group=1))+
-  geom_line(aes(y=to_emp_agencies, color="Employee agency", group=1))+
-  theme(axis.text.x = element_text(angle =90, size=5))+
+  geom_line(aes(y=to_emp_office, color="Turkish Employee Office", group=1))+
+  geom_line(aes(y=to_emp_agencies, color="Employee Agency", group=1))+
+  theme(axis.text.x = element_text(angle =90, size=5, hjust=1),
+        plot.title = element_text(hjust = 0.5))+
   labs(title="The Popularity of Employee Providers Over The Years",
-       x="Year",
-       y="Employee Provider Type")
+       x="",
+       y="Employee Provider Type (in thousands)",
+       color="Provider")
 ```
 
-```{r}
-#Kendi iş yerini kurmayı planlayanlar ve kurmak için aksiyona geçenlerin durumu
+```{r, fig.width=10}
+
 own_bus_df <- monthly_jobsearch %>%
   transmute(month_year = paste(year, month, sep = " "), look_place_equip_to_est_bus, look_credit_license_to_est_bus) %>%
   rename(in_action=look_place_equip_to_est_bus, planning_for = look_credit_license_to_est_bus)
 
-
-#Grafikte x ekseni alfabetik sıraya göre değil, tarih sırasına göre gelmesi için yapılan dönüşüm
 own_bus_df$month_year <- as.character(own_bus_df$month_year)
 own_bus_df$month_year <- factor(own_bus_df$month_year, level=own_bus_df$month_year)
 
 
 ggplot(own_bus_df, aes(x=factor(month_year))) +
-  geom_line(aes(y=in_action, color="in_action", group=1))+
-  geom_line(aes(y=planning_for, color="planning for", group=1))+
-  theme(axis.text.x = element_text(angle =90, size=5))+
+  geom_line(aes(y=in_action, color="In Action", group=1))+
+  geom_line(aes(y=planning_for, color="Planning", group=1))+
+  theme(axis.text.x = element_text(angle =90, size=5, hjust=1),
+        plot.title = element_text(hjust = 0.5))+
   labs(title="The Trend of Establishing Own Business Idea Over The Years",
        x="Year",
-       y="NUmber of People")
+       y="Number of People (in thousands)",
+       color="Current Status")
 ```
 
 ### Employed & Unemployed by Educational Level
 
-```{r}
+```{r, fig.width=10}
 educational_level_overall$month <- str_split_fixed(educational_level_overall$month, " - ", 2)[,2]
 
-#Excel'de 2014 Ocak ayı yazılımında " - " yerine "- " şeklinde olduğu için January manuel eklendi
 educational_level_overall$month[1]<-"January"
-
 
 monthly_educational <- filter(educational_level_overall, !grepl("Annual", month))
 
 total_labour_month<-monthly_educational%>%
   transmute(month_year = paste(year, month, sep = " "), illterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
-```
 
-```{r}
 yearly_educational <- filter(educational_level_overall, grepl("Annual", month))
 total_labour_yearly_educational <- yearly_educational%>%
   transmute(year=as.character(year),illeterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
 
 total_labour_yearly_educational_melt <- total_labour_yearly_educational %>%
   gather(key="type", value="value", -year)
-```
 
-
-```{r}
 emp_yearly_educational <- yearly_educational %>%
   transmute(year=as.character(year), illeterate=emp_illeterate, less_than_hs=emp_less_than_hs, highschool=emp_highschool, voc_hs=emp_voc_hs, higher_ed=emp_higher_ed)
 
 emp_yearly_educational_melt<-emp_yearly_educational %>%
   gather(key="Education_Level", value="Person", -year )
 
-# ggplot(emp_yearly_educational_melt, aes(x=year, y=Person, fill=factor(Education_Level, levels= c("higher_ed", "voc_hs", "highschool", "less_than_hs", "illeterate"))))+
-#   geom_bar(position = "stack")+
-#   guides(fill=guide_legend(title="Education Types"))+
-#   labs(title = "Number of Employed People by Education Levels Over the Years",
-#        y="Employed People")
-
 emp_yearly_educational_melt$Education_Level <- as.factor(emp_yearly_educational_melt$Education_Level)
-levels(emp_yearly_educational_melt$Education_Level) <- c("higher_education", "highschool", "illeterate", "less than highschool", "vocational highschool")
+levels(emp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
 
 
 ggplot(emp_yearly_educational_melt, aes(x = year, y = Person)) +
   geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
   facet_wrap(~ Education_Level)+
   labs(title="Employment Numbers by Education Level",
-       y="Number of People (thous.)")+
+       x="Year",y="Number of People (in thousands)")+
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
-
-
 ```
-```{r}
+
+```{r, fig.width=10}
 unemp_yearly_educational <- yearly_educational %>%
   transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
 
@@ -491,16 +473,13 @@ unemp_yearly_educational_melt<-unemp_yearly_educational %>%
   gather(key="Education_Level", value="Person", -year )
 
 unemp_yearly_educational_melt$Education_Level <- as.factor(unemp_yearly_educational_melt$Education_Level)
-levels(unemp_yearly_educational_melt$Education_Level) <- c("higher_education", "highschool", "illeterate", "less than highschool", "vocational highschool")
+levels(unemp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
 
 ggplot(unemp_yearly_educational_melt, aes(x = year, y = Person)) +
   geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
   facet_wrap(~ Education_Level)+
   labs(title="Unemployment Numbers by Education Level",
-       y="Number of People (thous.)")+
+       x="Year", y="Number of People (in thousands)")+
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
 ```
-
-
-
