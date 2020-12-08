@@ -483,3 +483,5 @@ ggplot(unemp_yearly_educational_melt, aes(x = year, y = Person)) +
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
 ```
+
+Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
