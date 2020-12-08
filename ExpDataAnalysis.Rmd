@@ -22,6 +22,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 library(reshape2)
+library(knitr)
 ```
 
 ### Reading the Datasets
@@ -61,25 +62,16 @@ Fourth dataset is Labour force status of higher education graduates by the last 
 last_graduated_major <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_new_excel/Yüksekokul ve fakülte mezunlarının en son mezun oldukları alana göre işgücü durumu.xls", range = "TURKIYE!A6:Y41", col_names = c("year", "statistics", "higher_ed_grad", "education", "arts", "humanities", "languages", "social_sci", "journalism", "business", "law", "biology_env_related_sci", "physical_sci", "math_stat", "info_communication_tech", "engineering", "manufacturing_processing", "architecture_construction", "agriculture_forestry_fishery", "veterinary", "health", "welfare", "personal_services", "occupational_health_transport_services", "security_services"))
 ```
 
-### Explotary Data Analysis
+### Exploratory Data Analysis
 
-#### Overview regarding unemployment in Turkey (2014-2020)
+#### Overview Regarding Unemployment in Turkey (2014-2020)
 
-As we can observe, there is an upward trend in unemployment from 2014 to 2020 in Turkey.
+As observed, there is an upward trend in unemployment from 2014 to 2020 in Turkey. Unemployment was 4.3 million as of January 2020 while it was 2.8 million in Jan 2014. In 2018, unemployment has soared enormously , which might be related to the sanctions imposed by US.
+
+Despite the upward trend in unemployment, there is a repeated fluctuation periods in unemployment history. To explore whether it is due to seasonality effect, we will be investigating the data in the part called "Seasonality Effect on Unemployment".
+
 ```{r overview,  fig.width=10}
 occ_group_overall_m <- occ_group_overall %>%
-  filter(month != "Annual") %>%
-  mutate(year = factor(year),
-         month = factor(month, levels = c("January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")))
-
-
-occ_group_male_m <- occ_group_male %>%
-  filter(month != "Annual") %>%
-  mutate(year = factor(year),
-         month = factor(month, levels = c("January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")))
-
-
-occ_group_female_m <- occ_group_female %>%
   filter(month != "Annual") %>%
   mutate(year = factor(year),
          month = factor(month, levels = c("January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")))
@@ -94,12 +86,13 @@ ggplot(occ_group_overall_m, aes(date, total_unemployed)) +
     y = "Unemployment (in thousands)") +
   theme(axis.ticks.x = element_blank(),
         axis.text.x = element_text(angle = 90, size = 5))
-
 ```
+
+In the next analysis, we'll examine whether the unemployment differentiate by gender.
 
 #### Unemployment by Gender
 
-Both genders have similar upward trend over time. However, males have higher unemployment than females. We'll be covering this difference in the next graphs in details.
+Both genders have similar upward trend over time. However, males have higher unemployment than females. We'll be covering this difference deeply in the part, Unemployment by Occupational Group and Gender.
 
 ```{r unemployment by gender}
 occ_group_male_y <- occ_group_male %>%
@@ -142,6 +135,9 @@ total_og_df <- rbind(og_male_df, og_female_df)
 total_og_df2 <- total_og_df %>%
   group_by(gender, year) %>%
   summarize(total = sum(values))
+
+total_og_df2$gender <- as.factor(total_og_df2$gender)
+levels(total_og_df2$gender) <- c("Female", "Male")
 
 ggplot(total_og_df2, aes(x = year ,y = total, group = gender, color = gender)) +
   geom_line() +
@@ -203,7 +199,7 @@ ggplot(occ_group_overall_m, aes(factor(month), total_unemployed, group=year, col
 
 #### Unemployment by Occupational Group
 
-From 2014 to 2019, total unemployment has increased by %57. Occupational groups with the highest growth are professionals (%108), elementary occupations (%64) and technicians and associate professionals (%55) ; whereas skilled agricultural, forestry and fishery workers (%0), managers (%20) and clerical support workers (%26) are the ones with the lowest growth. The graph below displays the distribution of unemployment by occupational group from 2014 to 2019. The highest proportion of unemployment in 2019 belongs to service and sales workers (%24 of all unemployment), followed by elementary occupations (%19) and craft and related trades workers (%14).
+From 2014 to 2019, total unemployment has increased by %57. Occupational groups with the highest growth in unemployment are professionals (%108), elementary occupations (%64) and technicians and associate professionals (%55) ; whereas skilled agricultural, forestry and fishery workers (%0), managers (%20) and clerical support workers (%26) are the ones with the lowest growth. The graph below displays the distribution of unemployment by occupational group from 2014 to 2019. The highest proportion of unemployment in 2019 belongs to service and sales workers (%24 of all unemployment), followed by elementary occupations (%19) and craft and related trades workers (%14).
 
 ```{r unemployment by occupational group,  fig.width=10}
 occ_group_overall_y <- occ_group_overall %>%
@@ -242,10 +238,9 @@ ggplot(og_df_rate, aes(x = year_x, y = Percentage)) +
 
 #### Unemployment by Occupatipational Group and Gender
 
-In the following graph, the average unemployment between 2014 and 2019 are taken into account rather than displaying bars for each year. You can find the occupational groups on x axis, gender information as color and average unemployment by percentage on y axis. According to graph, occupational groups with the highest male percentage are plant and machine operators and assemblers (%92), skilled agricultural, forestry and fishery workers (%91) and craft and related trades workers (%91). Occupational groups with the highest male percentage are cleric, prof and tech. 
+In the following graph, the average unemployment between 2014 and 2019 are taken into account rather than displaying bars for each year. According to graph, occupational groups with the highest male percentage are plant and machine operators and assemblers (%92), skilled agricultural, forestry and fishery workers (%91) and craft and related trades workers (%91). Occupational groups with the lowest percentage of male participation are clerical support workers (%34), professionals (%41) and technicians and associate professionals (%52).
 
-An interesting point is that even there are some occupational groups requiring almost no physical power, but there are still huge differences between males and females participation. For instance, %74 of unemployed managers are males where as %60 of all unemployed are males. The difference between these two percentage might have several reasons. One reason might be linked to the educational level of unemployed. Another reason might be linked to the willingness to work after education since willingness to work is a criteria to decide whether a person is unemployed or not. Last but not least
-
+An interesting point is that even there are some occupational groups requiring almost no physical power, but there are still huge differences between male and female participation. For instance, %74 of unemployed managers are males where as %60 of all unemployed are males. The difference between these two percentage might have several reasons. One reason might be linked to the educational level of unemployed. Another reason might be linked to the willingness to work after education since willingness to work is a criteria to decide whether a person is unemployed or not. Last but not least, pregnancy and raising child might be another reason that keeps the female participation lower.
 
 ```{r percentage of unemployed by occ group and gender, fig.width=10}
 
@@ -262,13 +257,21 @@ levels(total_og_df4$group) <- c("Skilled agricultural, forestry and fishery work
 ggplot(total_og_df4, aes(group, average_p_year, fill = gender)) +
   geom_col(position = "fill") + 
   labs(x = "Occupational Group",
-       y = "Percentage of Average Unemployed between 2014-2019",
+       y = "Percentage",
        title = "Unemployment by Occupational Group and Gender",
        fill = "Gender") +
   theme(axis.text.x = element_text(angle = 60, size = 10, vjust = 1, hjust = 1))
 ```
 
 ### Labour Force Status of Higher Education Graduates by Their Major
+
+In the following table, unemployment rate for the graduates of the corresponding majors are provided. The last column in the table called 'trend' represents the percentage of change in unemployment rate from 2014 to 2019.
+
+Top 5 majors with the highest trend in unemployment rate are represented in the graph. Graduates of health have the highest increase in unemployment rate proportionally even though it has been one of the majors with the lowest unemployment rate. Unemployment rate for the graduates of health are 3.14 and 11.4 for 2014 and 2020, respectively. Therefore, the unemployment rate is raised by %252 in comparison with 2014. Despite this, health still remained its position as one of the lowest unemployment rate among the other major.
+
+5 majors with the lowest trend in unemployment rate are represented in the second graph. Graduates of journalism and information have the lowest increase, even negative increase, in unemployment rate proportionally. However, after considering that it has been the major with the highest unemployment rate in 2014, it can be assumed that the number of people interested in journalism and information might started to take alternative majors into account.
+
+After all analysis, it should be kept in mind that these statistics regarding employment & unemployment do not represent whether people work on their own field of major or not. Therefore, when considering people working on the field that do not related to their major, employment rate on the field of major could be even lower.
 
 ```{r last graduated major, fig.width=10}
 
@@ -285,7 +288,6 @@ major_issizoran_wide$trend <- round(((major_issizoran_wide$`2019`/major_issizora
 major_issizoran_wide$major <- as.factor(major_issizoran_wide$major)
 levels(major_issizoran_wide$major) <- c("Agriculture, forestry and fishery","Architecture and construction", "Arts", "Biology, environ-ment and related sciences", "Business and administration", "Education", "Engineering and engineering trades", "Health", "Higher education graduate", "Humanities", "Information and communi-cation technologies", "Journalism and information", "Languages", "Law", "Manufacturing and processing", "Mathematics and statistics", "Occupational health and transport services", "Personal services", "Physical science", "Security services", "Social and behavioural sciences", "Veterinary", "Welfare (Social services)")
 
-
 major_top5 <- major_issizoran_wide %>%
   top_n(5, trend)
 
@@ -293,26 +295,23 @@ major_last5 <- major_issizoran_wide %>%
   arrange(trend) %>%
   head(5)
 
-major_top5
-major_last5
+kable(major_issizoran_wide)
 
 ggplot(major_top5, aes(factor(major, levels = major), trend, fill = major)) +
   geom_col(position = "dodge") +
   theme(legend.position = "none")  +
   guides(fill=guide_legend(title="Major")) +
   labs(x = "Major",
-       y = "Percentage of Change",
-       title = "Percentage of Change from 2014 to 2019")
+       y = "Percentage of Change from 2014 to 2019",
+       title = "Top 5 Major by Unemployment Rate Trend")
 
 ggplot(major_last5, aes(factor(major, levels = major), trend, fill = major)) +
   geom_col(position = "dodge") +
   theme(legend.position = "none")  +
   guides(fill=guide_legend(title="Major")) +
   labs(x = "Major",
-       y = "Percentage of Change",
-       title = "Percentage of Change from 2014 to 2019")
-
-
+       y = "Percentage of Change from 2014 to 2019",
+       title = "Least 5 Major by Unemployment Rate Trend")
 ```
 
 
@@ -379,17 +378,11 @@ annual_jobsearch_melt <- annual_jobsearch %>%
 
 ```{r}
 job_search_overall$month <- str_split_fixed(job_search_overall$month, " - ", 2)[,2]
-job_search_overall
+
 monthly_jobsearch <- filter(job_search_overall, !grepl("Annual", month))
 
-monthly_jobsearch
 unemp_gr<-monthly_jobsearch%>%
   transmute(month_year = paste(year, month, sep = " "), total_unemployed)
-
-#Grafikte x ekseni alfabetik sıraya göre değil, tarih sırasına göre gelmesi için yapılan dönüşüm
-#unemp_gr$month_year <- as.character(unemp_gr$month_year)
-#unemp_gr$month_year <- factor(unemp_gr$month_year, level=unemp_gr$month_year)
-
 ```
 
 ### İŞKUR ile özel istihdam bürolarının yıllara göre durumları

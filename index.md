@@ -11,6 +11,7 @@
 ### Group Project
 #### Unemployment & Employment Rates in Turkey (2014-2020)
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
+- [Exploratory Data Analysis](ExpDataAnalysis.html)
 
 ### Group Assignments
 #### isbike Assignment
