@@ -30,36 +30,36 @@ library(knitr)
 First dataset we used is the Unemployed Job Searching People by the Channel.
 
 ```{r}
-job_search_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/search_channel.xls", range = "TÜRKİYE!A6:P91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
+job_search_overall <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/search_channel.xls", range = "TÜRKİYE!A6:P91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
 
-job_search_male <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/search_channel.xls", range = "TÜRKİYE!R6:AG91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
+job_search_male <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/search_channel.xls", range = "TÜRKİYE!R6:AG91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
 
-job_search_female <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/search_channel.xls", range = "TÜRKİYE!AI6:AX91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
+job_search_female <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/search_channel.xls", range = "TÜRKİYE!AI6:AX91", col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others"))
 ```
 
 Second dataset is Employed & Unemployed by Educational Level.
 
 ```{r}
-educational_level_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/educational_level.xls", range = "TÜRKİYE!A7:Q92", col_names = c("year", "month", "lf_illeterate", "lf_less_than_hs", "lf_highschool", "lf_voc_hs", "lf_higher_ed","emp_illeterate", "emp_less_than_hs", "emp_highschool", "emp_voc_hs", "emp_higher_ed","unemp_illeterate", "unemp_less_than_hs", "unemp_highschool", "unemp_voc_hs", "unemp_higher_ed" ))
+educational_level_overall <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/educational_level.xls", range = "TÜRKİYE!A7:Q92", col_names = c("year", "month", "lf_illeterate", "lf_less_than_hs", "lf_highschool", "lf_voc_hs", "lf_higher_ed","emp_illeterate", "emp_less_than_hs", "emp_highschool", "emp_voc_hs", "emp_higher_ed","unemp_illeterate", "unemp_less_than_hs", "unemp_highschool", "unemp_voc_hs", "unemp_higher_ed" ))
 ```
 
 Third dataset is Unemployment by occupational group.
 
 ```{r}
-occ_group_overall <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/occupational_group.xls", range = "TÜRKİYE!A7:L92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+occ_group_overall <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/occupational_group.xls", range = "TÜRKİYE!A7:L92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
   mutate(month = gsub("^.*?- ", "", month))
 
-occ_group_male <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/occupational_group.xls", range = "TÜRKİYE!N7:Y92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+occ_group_male <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/occupational_group.xls", range = "TÜRKİYE!N7:Y92", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
   mutate(month = gsub("^.*?- ", "", month))
 
-occ_group_female <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/occupational_group.xls", range = "TÜRKİYE!AA6:AL91", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+occ_group_female <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/occupational_group.xls", range = "TÜRKİYE!AA6:AL91", col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
   mutate(month = gsub("^.*?- ", "", month))
 ```
 
 Fourth dataset is Labour force status of higher education graduates by the last graduated  field of education.
 
 ```{r}
-last_graduated_major <- read_xls("/Users/Serhan/Documents/GitHub/mef04g-rhapsody/Rhapsody_Data/major_field.xls", range = "TURKIYE!A6:Y41", col_names = c("year", "statistics", "higher_ed_grad", "education", "arts", "humanities", "languages", "social_sci", "journalism", "business", "law", "biology_env_related_sci", "physical_sci", "math_stat", "info_communication_tech", "engineering", "manufacturing_processing", "architecture_construction", "agriculture_forestry_fishery", "veterinary", "health", "welfare", "personal_services", "occupational_health_transport_services", "security_services"))
+last_graduated_major <- read_xls("/Users/Emre - PC/Desktop/MEF Assignments/R Exercises/Group Project/major_field.xls", range = "TURKIYE!A6:Y41", col_names = c("year", "statistics", "higher_ed_grad", "education", "arts", "humanities", "languages", "social_sci", "journalism", "business", "law", "biology_env_related_sci", "physical_sci", "math_stat", "info_communication_tech", "engineering", "manufacturing_processing", "architecture_construction", "agriculture_forestry_fishery", "veterinary", "health", "welfare", "personal_services", "occupational_health_transport_services", "security_services"))
 ```
 
 ## Exploratory Data Analysis
@@ -368,7 +368,11 @@ ggplot(js_df_rate, aes(x = Year, y = Percentage)) +
   scale_y_continuous(limits = c(0,40))
 ```
 
-### Turkish Employment Office & Employment Agencies
+### Number of Applications Made to Private and State Employment Agencies By Months
+
+The chart below shows us the comparison of the application numbers that made to the Turkish employment office, called İşkur, and other private employment agencies from 2014 to 2020 by months. The difference of the approach of this chart from the previous graph is, since the awaiting number of applications that sent to the private agencies are unknown, they are not included. However, in the graph above, the number of  applications and the number of waiting for the result are considered together.
+
+Since the beginning of 2014, the number of applications are quite close each other until July of 2018. Then, the gap starts to gradually expand in 6 months from that date. Even the upward trend of private agencies continues, the Turkish employment office's application numbers have surged and doubled itself at the beginning of 2019. After a slight fluctuation, the government's office applications starts to decrease and it reaches to the closest point with the private agencies, at the around of 1.3 million application in August of 2020. The private agencies' application number increases without a fall since April and one of the reason might be the restrictions due to Covid-19, hence the gap have became closer to 50 thousand applications.
 
 ```{r, fig.width=10}
 annual_jobsearch <- filter(job_search_overall, grepl("Annual", month))
@@ -400,11 +404,17 @@ ggplot(applied_office_types, aes(x=factor(month_year))) +
   geom_line(aes(y=to_emp_agencies, color="Employee Agency", group=1))+
   theme(axis.text.x = element_text(angle =90, size=5, hjust=1),
         plot.title = element_text(hjust = 0.5))+
-  labs(title="The Popularity of Employee Providers Over The Years",
+  labs(title="The Comparison of Employment Agencies Over The Months",
        x="",
        y="Employee Provider Type (in thousands)",
        color="Provider")
 ```
+
+### The Trend of Establishing Own Business
+
+In our dataset, establishing the own business splits into 2 parts. First, people who are in an action such as; looking for a place or looking for equipment etc. Second, people who having the idea and doing some research such as; looking for loan options, searching for license etc. In the following chart, the trend and roughly relation between them can be seen.  
+
+The people who are in action to open their own businesses and the ones who are considering owning a business have quite similar numbers from 2014 to 2020. However, from the beginning of 2020 they have both drastically risen. Especially when the most of the companies have started to work from home, around March and April, they have both spiked. Supposably, the Covid-19 effected a lot of companies and thousands of people had to leave their works without getting any payment, and this may have effected people's decisions to establish their own businesses in a very short time.
 
 ```{r, fig.width=10}
 
@@ -429,7 +439,7 @@ ggplot(own_bus_df, aes(x=factor(month_year))) +
 
 ### Employed & Unemployed by Educational Level
 
-```{r, fig.width=10}
+```{r, fig.width=10, include=FALSE}
 educational_level_overall$month <- str_split_fixed(educational_level_overall$month, " - ", 2)[,2]
 
 educational_level_overall$month[1]<-"January"
@@ -438,50 +448,86 @@ monthly_educational <- filter(educational_level_overall, !grepl("Annual", month)
 
 total_labour_month<-monthly_educational%>%
   transmute(month_year = paste(year, month, sep = " "), illterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
+```
 
+
+```{r}
 yearly_educational <- filter(educational_level_overall, grepl("Annual", month))
 total_labour_yearly_educational <- yearly_educational%>%
   transmute(year=as.character(year),illeterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
 
 total_labour_yearly_educational_melt <- total_labour_yearly_educational %>%
-  gather(key="type", value="value", -year)
+  gather(key="type", value="value", -year) %>%
+  group_by(year) %>%
+  mutate(Percentage= round(value/sum(value) * 100, 1))
+
 
 emp_yearly_educational <- yearly_educational %>%
   transmute(year=as.character(year), illeterate=emp_illeterate, less_than_hs=emp_less_than_hs, highschool=emp_highschool, voc_hs=emp_voc_hs, higher_ed=emp_higher_ed)
 
 emp_yearly_educational_melt<-emp_yearly_educational %>%
-  gather(key="Education_Level", value="Person", -year )
+  gather(key="Education_Level", value="Person", -year ) %>%
+  group_by(year) %>%
+  mutate(Percentage= round(Person/sum(Person) * 100, 1))
 
 emp_yearly_educational_melt$Education_Level <- as.factor(emp_yearly_educational_melt$Education_Level)
 levels(emp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
 
 
-ggplot(emp_yearly_educational_melt, aes(x = year, y = Person)) +
-  geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
-  facet_wrap(~ Education_Level)+
-  labs(title="Employment Numbers by Education Level",
-       x="Year",y="Number of People (in thousands)")+
-  theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
-```
-
-```{r, fig.width=10}
 unemp_yearly_educational <- yearly_educational %>%
   transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
 
 unemp_yearly_educational_melt<-unemp_yearly_educational %>%
-  gather(key="Education_Level", value="Person", -year )
+  gather(key="Education_Level", value="Person", -year ) %>%
+  group_by(year) %>%
+  mutate(Percentage= round(Person/sum(Person) * 100, 1))
 
 unemp_yearly_educational_melt$Education_Level <- as.factor(unemp_yearly_educational_melt$Education_Level)
 levels(unemp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
+```
 
-ggplot(unemp_yearly_educational_melt, aes(x = year, y = Person)) +
+
+
+
+As we can depict from the table and graphs below, the employment and unemployment rates for the people, who have a higher education rise in all years, except 2019. While employment rate going up and reaches to the three fourth of the all employed people in 2019, the unemployment rate decreases for 2019. On the other hand, for the people who have less than a highschool education, the employment and unemployment rates decreasing steadily over the years. Furthermore, even though the rates of employment of vocational highschool graduates are stands still over the years, the unemployment rates have a slight upward trend. As long as downward trend of the group of less than highschool and upward trend of the group of vocational highschool keep gooing, it may be concluded as, most of the unemployed people would be from the vocational highschool graduated cluster, instead of less than highschool graduated cluster in a long run.
+
+```{r, fig.width=10}
+total_employed <- emp_yearly_educational %>%
+  group_by(year)%>%
+  transmute(total_employed = illeterate + less_than_hs+highschool+voc_hs+higher_ed)
+
+total_unemployed <- unemp_yearly_educational %>%
+  group_by(year)%>%
+  transmute(total_unemployed = illeterate + less_than_hs+highschool+voc_hs+higher_ed)
+
+
+total_emp_unemp <- merge(total_employed, total_unemployed)
+
+kable(total_emp_unemp, col.names = c("Year", "Total Employed", "Total Unemployed"), format = "html", align = "c", format.args = list(big.mark = ",", scientific = FALSE), caption="Number of Employment and Unemployment in Thous.")
+
+#Employment Graph
+ggplot(emp_yearly_educational_melt, aes(x = year, y = Percentage)) +
   geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
+  coord_cartesian(ylim=c(0,70))+
+  geom_text(aes(label = paste0(Percentage, "%"), vjust = -1), size = 3) +
   facet_wrap(~ Education_Level)+
-  labs(title="Unemployment Numbers by Education Level",
-       x="Year", y="Number of People (in thousands)")+
+  labs(title="Employment Rates by Education Level",
+       y="% of People")+
+  theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
+
+#Unemployment Graph
+ggplot(unemp_yearly_educational_melt, aes(x = year, y = Percentage)) +
+  geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
+  coord_cartesian(ylim=c(0,70))+
+  geom_text(aes(label = paste0(Percentage, "%"), vjust = -1), size = 3) +
+  facet_wrap(~ Education_Level)+
+  labs(title="Unemployment Rates by Education Level",
+       y="% of People")+
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
 ```
+
+
 
 Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
