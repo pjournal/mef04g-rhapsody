@@ -225,7 +225,7 @@ Final tibble is as follows.
 glimpse(last_graduated_major)
 ```
 
-#### Creating the .Rdata File
+### Creating the .Rdata File
 
 After preparing all the datasets, we can create a .Rdata file. In order to do this, all tibbles are saved into a single file named `project_all_data.RData`. In further analysis, loading this .Rdata file will be sufficient to reach all the necessary data.
 
@@ -234,5 +234,11 @@ save(job_search_overall, job_search_male, job_search_female, educational_level_o
      occ_group_overall, occ_group_male, occ_group_female, last_graduated_major, 
      file = "project_all_data.RData") 
 ```
+
+### References
+
++ [Reading .xls Files From URL](https://github.com/tidyverse/readxl/issues/183)
++ [Creating .Rdata Files](https://bookdown.org/ndphillips/YaRrr/rdata-files.html)
++ [Filling Empty Values with Previous Values in a Column](https://stackoverflow.com/questions/40040834/replace-na-with-previous-or-next-value-by-group-using-dplyr/40041172)
 
 Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)

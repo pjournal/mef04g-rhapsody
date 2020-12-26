@@ -1904,14 +1904,22 @@ occ_group_female$month &lt;- str_split_fixed(occ_group_female$month, &quot; - &q
 ## $ security_services                      &lt;dbl&gt; 119.000000, 3.000000, 116.0000…</code></pre>
 </div>
 </div>
-<div id="creating-the-.rdata-file" class="section level4">
-<h4>Creating the .Rdata File</h4>
+</div>
+<div id="creating-the-.rdata-file" class="section level3">
+<h3>Creating the .Rdata File</h3>
 <p>After preparing all the datasets, we can create a .Rdata file. In order to do this, all tibbles are saved into a single file named <code>project_all_data.RData</code>. In further analysis, loading this .Rdata file will be sufficient to reach all the necessary data.</p>
 <pre class="r"><code>save(job_search_overall, job_search_male, job_search_female, educational_level_overall,
      occ_group_overall, occ_group_male, occ_group_female, last_graduated_major, 
      file = &quot;project_all_data.RData&quot;) </code></pre>
-<p>Back to <a href="https://pjournal.github.io/mef04g-rhapsody/">our progress journal.</a></p>
 </div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<ul>
+<li><a href="https://github.com/tidyverse/readxl/issues/183">Reading .xls Files From URL</a></li>
+<li><a href="https://bookdown.org/ndphillips/YaRrr/rdata-files.html">Creating .Rdata Files</a></li>
+<li><a href="https://stackoverflow.com/questions/40040834/replace-na-with-previous-or-next-value-by-group-using-dplyr/40041172">Filling Empty Values with Previous Values in a Column</a></li>
+</ul>
+<p>Back to <a href="https://pjournal.github.io/mef04g-rhapsody/">our progress journal.</a></p>
 </div>
 
 
