@@ -1,0 +1,238 @@
+---
+title: "Data Preprocessing"
+author: "Group Rhapsody"
+date: "26 Dec, 2020"
+output: 
+  html_document:
+    code_folding: show
+    toc: true
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    toc_depth: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Importing Necessary Libraries 
+
+```{r, results='hide', message=FALSE}
+library(tidyverse)
+library(rio)
+library(knitr)
+```
+
+### Reading & Preparing Datasets
+
+In the project, we have four main datasets that we used to make analysis. Below, you can find the reading and preparing stages of these datasets.
+
+#### Dataset 1 - Unemployed Job Searching People by the Channel
+
+The original dataset can be found at [this link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8).
+
+The dataset is grouped by gender and includes job search methods. The data is between January 2014 and August 2020.
+
++ Since the data in the file does not start with A1 cell, the ranges are given as parameters during the import process.
++ All columns are renamed accordingly during the import process.
++ The original dataset has some empty cells for the `year` column. Therefore, empty cells filled with the correct year value.
++ The data table converted to a tibble.
++ `month` column includes both Turkish and English month names. By using `str_split_fixed` function, only the English name is taken.
+
+##### All Genders Dataset
+
+```{r}
+job_search_overall <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/search_channel.xls?raw=true", 
+                             range = "TÜRKİYE!A6:P91", 
+                             col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others")) %>% 
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+job_search_overall$month <- str_split_fixed(job_search_overall$month, " - ", 2)[,2]
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(job_search_overall)
+```
+
+
+##### Male Dataset
+
+```{r}
+job_search_male <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/search_channel.xls?raw=true", 
+                          range = "TÜRKİYE!R6:AG91", 
+                          col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others")) %>% 
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+job_search_male$month <- str_split_fixed(job_search_male$month, " - ", 2)[,2]
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(job_search_male)
+```
+
+##### Female Dataset
+
+```{r}
+job_search_female <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/search_channel.xls?raw=true", 
+                            range = "TÜRKİYE!AI6:AX91", 
+                            col_names = c("year", "month", "total_unemployed", "to_employers", "to_relatives", "to_emp_office", "to_emp_agencies", "to_newspaper", "insert_ad_to_newspaper", "take_interview", "look_place_equip_to_est_bus", "look_credit_license_to_est_bus", "wait_call_from_emp_office", "wait_result_of_app", "wait_result_of_comp_for_public_sec", "others")) %>% 
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+job_search_female$month <- str_split_fixed(job_search_female$month, " - ", 2)[,2]
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(job_search_female)
+```
+
+#### Dataset 2 - Employed & Unemployed by Educational Level
+
+The original dataset can be found at [this link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg).
+
+This dataset includes the number of employed and unemployed people by their educational levels and gender. The data is between January 2014 and August 2020.
+
++ Since the data in the file does not start with A1 cell, the ranges are given as parameters during the import process.
++ All columns are renamed accordingly during the import process.
++ There are two empty columns in the file. These empty columns are eliminated by using `select` function.
++ The original dataset has some empty cells for the `year` column. Therefore, empty cells filled with the correct year value.
++ The data table converted to a tibble.
++ `month` column includes both Turkish and English month names. By using `str_split_fixed` function, only the English name is taken.
++ There is a difference in two January values in the `month` column which causes these values to be equal to empty strings. Therefore, these values are being found and updated as January.
+
+##### All Genders Dataset
+
+```{r}
+educational_level_overall <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/educational_level.xls?raw=true", 
+                                    range = "TÜRKİYE!A7:S92", 
+                                    col_names = c("year", "month", "lf_illeterate", "lf_less_than_hs", "lf_highschool", "lf_voc_hs", "lf_higher_ed", "empty_col_1", "emp_illeterate", "emp_less_than_hs", "emp_highschool", "emp_voc_hs", "emp_higher_ed", "empty_col_2", "unemp_illeterate", "unemp_less_than_hs", "unemp_highschool", "unemp_voc_hs", "unemp_higher_ed" )) %>% 
+  select(-empty_col_1, -empty_col_2) %>% 
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+educational_level_overall$month <- str_split_fixed(educational_level_overall$month, " - ", 2)[,2]
+
+educational_level_overall$month[educational_level_overall$month == ""] = "January"
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(educational_level_overall)
+```
+
+
+
+#### Dataset 3 - Unemployment by Occupational Group
+
+The original dataset can be found at [this link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR).
+
+This dataset includes the number of unemployed people by their occupational group and gender. The data is between January 2014 and August 2020.
+
++ Since the data in the file does not start with A1 cell, the ranges are given as parameters during the import process.
++ All columns are renamed accordingly during the import process.
++ The original dataset has some empty cells for the `year` column. Therefore, empty cells filled with the correct year value.
++ The data table converted to a tibble.
++ `month` column includes both Turkish and English month names. By using `str_split_fixed` function, only the English name is taken.
+
+##### All Genders Dataset
+
+```{r}
+occ_group_overall <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/occupational_group.xls?raw=true", 
+                            range = "TÜRKİYE!A7:L92", 
+                            col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+occ_group_overall$month <- str_split_fixed(occ_group_overall$month, " - ", 2)[,2]
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(occ_group_overall)
+```
+
+##### Male Dataset
+
+```{r}
+occ_group_male <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/occupational_group.xls?raw=true", 
+                         range = "TÜRKİYE!N7:Y92", 
+                         col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+occ_group_male$month <- str_split_fixed(occ_group_male$month, " - ", 2)[,2]
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(occ_group_male)
+```
+
+##### Female Dataset
+
+```{r}
+occ_group_female <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/occupational_group.xls?raw=true", 
+                           range = "TÜRKİYE!AA7:AL92", 
+                           col_names = c("year", "month", "total_unemployed", "manager", "prof", "tech", "cleric", "service", "agricul", "trade", "operator", "elemantary")) %>%
+  fill(year, .direction = "down") %>%
+  as_tibble()
+
+occ_group_female$month <- str_split_fixed(occ_group_female$month, " - ", 2)[,2]
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(occ_group_female)
+```
+
+#### Dataset 4 - Labour Force Status of Higher Education Graduates by Major
+
+The original dataset can be found at [this link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R).
+
+It consists of annual numbers of employed and unemployed people by field of education. The dataset consists of the statistics from 2014 to 2019
+
++ Since the data in the file does not start with A1 cell, the ranges are given as parameters during the import process.
++ All columns are renamed accordingly during the import process.
++ The original dataset has some empty cells for the `year` column. Therefore, empty cells filled with the correct year value.
++ The data table converted to a tibble.
+
+##### Dataset
+
+```{r}
+last_graduated_major <- import("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/major_field.xls?raw=true", 
+                               range = "TURKIYE!A6:Y41", 
+                               col_names = c("year", "statistics", "higher_ed_grad", "education", "arts", "humanities", "languages", "social_sci", "journalism", "business", "law", "biology_env_related_sci", "physical_sci", "math_stat", "info_communication_tech", "engineering", "manufacturing_processing", "architecture_construction", "agriculture_forestry_fishery", "veterinary", "health", "welfare", "personal_services", "occupational_health_transport_services", "security_services")) %>%
+  fill(year, .direction = "down") %>%
+  as_tibble()
+```
+
+Final tibble is as follows.
+
+```{r, echo=FALSE}
+glimpse(last_graduated_major)
+```
+
+#### Creating the .Rdata File
+
+After preparing all the datasets, we can create a .Rdata file. In order to do this, all tibbles are saved into a single file named `project_all_data.RData`. In further analysis, loading this .Rdata file will be sufficient to reach all the necessary data.
+
+```{r, eval=FALSE}
+save(job_search_overall, job_search_male, job_search_female, educational_level_overall,
+     occ_group_overall, occ_group_male, occ_group_female, last_graduated_major, 
+     file = "project_all_data.RData") 
+```
+
+Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
