@@ -19,7 +19,7 @@ In the project, the change of labor force by educational level, gender, job sear
   - [Unemployment by Occupational Group Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
   - [Unemployment of Higher Education Graduates by Major Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
   - [.Rdata File](https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true)
-- [Exploratory Data Analysis](ExpDataAnalysis.html) <br/>
+- [Exploratory Data Analysis](ExpDataAnalysis.html) <br />
 - Final Report
   - [HTML Format](FinalReport.html)
   - [PDF Format](FinalReport.pdf)
