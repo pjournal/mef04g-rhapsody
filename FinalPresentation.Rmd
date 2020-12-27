@@ -251,8 +251,22 @@ major_last_plot <- ggplot(major_last5, aes(factor(Major, levels = Major), Trend,
 
 ## Unemployment of Higher Education Graduates
 
-```{r, echo=FALSE, fig.width=10}
-grid.arrange(major_last_plot, major_top_plot, ncol=1)
+```{r, echo=FALSE, fig.width=10, fig.height=4}
+major_last_plot
+
+kable(mutate(major_issizoran_wide, across(where(is.numeric), round, 1)) %>% 
+        filter(Major == "Journalism & Info."))
+```
+
+---
+
+## Unemployment of Higher Education Graduates
+
+```{r, echo=FALSE, fig.width=10, fig.height=4}
+major_top_plot
+
+kable(mutate(major_issizoran_wide, across(where(is.numeric), round, 1)) %>% 
+        filter(Major == "Health"))
 ```
 
 ---
