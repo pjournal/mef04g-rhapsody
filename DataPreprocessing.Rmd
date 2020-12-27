@@ -130,8 +130,6 @@ Final tibble is as follows.
 glimpse(educational_level_overall)
 ```
 
-
-
 #### Dataset 3 - Unemployment by Occupational Group
 
 The original dataset can be found at [this link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR).
@@ -198,7 +196,7 @@ Final tibble is as follows.
 glimpse(occ_group_female)
 ```
 
-#### Dataset 4 - Labour Force Status of Higher Education Graduates by Major
+#### Dataset 4 - Unemployment of Higher Education Graduates by Major
 
 The original dataset can be found at [this link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R).
 

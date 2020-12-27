@@ -3,9 +3,6 @@ title: "Unemployment & Employment Rates in Turkey (2014-2020)"
 author: "Group Rhapsody"
 date: "Dec 26, 2020"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '5'
   html_document:
     code_folding: hide
     toc: yes
@@ -13,6 +10,9 @@ output:
       collapsed: no
       smooth_scroll: yes
     toc_depth: 5
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
 ---
 <style>
 body {
@@ -297,7 +297,7 @@ According to the upward trend, there will not be a solution for the unemployment
 + [Unemployed Job Searching People by the Channel Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8)
 + [Employed & Unemployed by Educational Level Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
 + [Unemployment by Occupational Group Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
-+ [Labour Force Status of Higher Education Graduates by Major Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
++ [Unemployment of Higher Education Graduates by Major Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
 + [Reading .xls Files From URL](https://github.com/tidyverse/readxl/issues/183)
 + [Creating .Rdata Files](https://bookdown.org/ndphillips/YaRrr/rdata-files.html)
 + [Filling Empty Values with Previous Values in a Column](https://stackoverflow.com/questions/40040834/replace-na-with-previous-or-next-value-by-group-using-dplyr/40041172)
