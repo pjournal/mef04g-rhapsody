@@ -13,9 +13,13 @@
 
 In the project, the change of labor force by educational level, gender, job searching methods and occupational groups of Turkey between the years 2014 and 2020 is analysed.
 
-- [Data Preprocessing](DataPreprocessing.html)
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
+- [Data Preprocessing](DataPreprocessing.html)
 - [Exploratory Data Analysis](ExpDataAnalysis.html)
+- [Final Report]()
+- [Final Presentation]()
+- [Shiny Codes]()
+- [Shiny App]()
 
 ### Group Assignments
 #### isbike Assignment
