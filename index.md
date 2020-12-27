@@ -16,12 +16,12 @@ In the project, the change of labor force by educational level, gender, job sear
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
 - [Data Preprocessing](DataPreprocessing.html)
 - [Exploratory Data Analysis](ExpDataAnalysis.html)
-- [Final Report]()
-- [Final Presentation]()
+- [Final Report](FinalReport.html)
+- [Final Presentation](FinalPresentation.html)
 - [Shiny Codes]()
 - [Shiny App]()
 
-### Group Assignments
+### Group Assignment
 #### isbike Assignment
 
 Below Shiny app contains availability and location information about isbike stations at a spesific time.
