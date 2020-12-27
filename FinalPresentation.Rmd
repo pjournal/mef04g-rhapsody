@@ -28,12 +28,14 @@ load(url("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data
 
 # Introduction
 
-We analysed four different datasets which are obtained from TÜIK.
+We used four different datasets which are obtained from TÜIK.
 
-+ Unemployed Job Searching People by the Channel<sup>1</sup>
-+ Employed & Unemployed by Educational Level<sup>2</sup>
++ Unemployed People by the Job Searching Channel<sup>1</sup>
++ Employed & Unemployed People by Educational Level<sup>2</sup>
 + Unemployment by Occupational Group<sup>3</sup>
 + Unemployment of Higher Education Graduates by Major<sup>4</sup>
+
+We analysed each dataset and combined different outcomes.
 
 .footnote[
 [1] [Dataset 1 - Link](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8)
