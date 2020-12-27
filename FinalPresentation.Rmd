@@ -318,6 +318,8 @@ class: center, middle
 ## Project Documents
 
 [Data Preprocessing](https://pjournal.github.io/mef04g-rhapsody/DataPreprocessing.html)
+
 [Final Report](https://pjournal.github.io/mef04g-rhapsody/FinalReport.html)
+
 [Shiny App]()
 
