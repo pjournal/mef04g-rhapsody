@@ -1,8 +1,11 @@
 ---
 title: "Unemployment & Employment Rates in Turkey (2014-2020)"
 author: "Group Rhapsody"
-date: "Dec 26, 2020"
+date: "Dec 27, 2020"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
   html_document:
     code_folding: hide
     toc: yes
@@ -10,9 +13,6 @@ output:
       collapsed: no
       smooth_scroll: yes
     toc_depth: 5
-  pdf_document:
-    toc: yes
-    toc_depth: '5'
 ---
 <style>
 body {
@@ -32,7 +32,8 @@ library(knitr)
 ```
 
 ```{r}
-load(url("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true"))
+load(url(paste0("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages",
+                "/Project_Data/project_all_data.RData?raw=true")))
 ```
 
 ## Key Takeaways
@@ -66,7 +67,9 @@ After examining the yearly change in unemployment one by one, we can easily see 
 occ_group_overall_m <- occ_group_overall %>%
   filter(month != "Annual") %>%
   mutate(year = factor(year),
-         month = factor(month, levels = c("January","February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")))
+         month = factor(month, levels = c("January","February", "March", "April", "May", 
+                                          "June", "July", "August", "September", 
+                                          "October", "November", "December")))
 
 occ_group_overall_m <- occ_group_overall_m %>%
   mutate(date = factor(paste(year, month), levels = paste(year, month)))
@@ -94,7 +97,8 @@ unemp_gr_female<-monthly_jobsearch_female%>%
   transmute(month_year = paste(year, month, sep = " "), total_unemployed)
 
 
-unemp_merged <-merge(unemp_gr_female,unemp_gr_male, by="month_year", all=TRUE, sort = FALSE)
+unemp_merged <-merge(unemp_gr_female,unemp_gr_male, by="month_year", 
+                     all=TRUE, sort = FALSE)
 
 unemp_merged <- unemp_merged %>%
   rename(female=total_unemployed.x, male=total_unemployed.y)
@@ -136,8 +140,6 @@ emp_yearly_educational_melt<-emp_yearly_educational %>%
 
 emp_yearly_educational_melt$Education_Level <- as.factor(emp_yearly_educational_melt$Education_Level)
 levels(emp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
-
-
 
 unemp_yearly_educational <- yearly_educational %>%
   transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
@@ -204,10 +206,20 @@ deneme_major_issizoran <- filter(deneme_major, grepl("İşsizlik oranı", statis
 major_issizoran_wide <- spread(deneme_major_issizoran, year, value) %>%
   subset(select = -c(statistics))
 
-major_issizoran_wide$Trend <- round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
+major_issizoran_wide$Trend <- 
+  round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
 
 major_issizoran_wide$Major <- as.factor(major_issizoran_wide$Major)
-levels(major_issizoran_wide$Major) <- c("Agriculture, forestry and fishery","Architecture and construction", "Arts", "Biology & Env. Sci.", "Business & Admin.", "Education", "Engineering and engineering trades", "Health", "Higher education graduate", "Humanities", "Info. & Comm. Tech.", "Journalism & Info.", "Languages", "Law", "Manufacturing and processing", "Mathematics and statistics", "Occupational health and transport services", "Personal Services", "Physical science", "Security Services", "Social and behavioural sciences", "Veterinary", "Welfare (Social services)")
+levels(major_issizoran_wide$Major) <- 
+  c("Agriculture, forestry and fishery","Architecture and construction", 
+    "Arts", "Biology & Env. Sci.", "Business & Admin.", "Education", 
+    "Engineering and engineering trades", "Health", 
+    "Higher education graduate", "Humanities", "Info. & Comm. Tech.",
+    "Journalism & Info.", "Languages", "Law", "Manufacturing and processing",
+    "Mathematics and statistics", "Occupational health and transport services",
+    "Personal Services", "Physical science", "Security Services", 
+    "Social and behavioural sciences", "Veterinary", 
+    "Welfare (Social services)")
 
 major_top5 <- major_issizoran_wide %>%
   top_n(5, Trend)
@@ -240,8 +252,7 @@ ggplot(major_last5, aes(factor(Major, levels = Major), Trend, fill = Major)) +
 
 ### Unemployed Job Searching People by the Channel
 
-In these six charts, job searching channels were analyzed between the years 2014 and 2019.
-When we look at the change in percentage of job searching channels, it is clearly seen that job applications percentage has increased through Turkish Employment Office. It was 14.2% in 2014 and rose up to 24.3% in 2019. Also, applications through Employment Agencies were 6.3% in 2014 and rose 10.1% in 2019.
+In these six charts, job searching channels were analyzed between the years 2014 and 2019. When we look at the change in percentage of job searching channels, it is clearly seen that job applications percentage has increased through Turkish Employment Office. It was 14.2% in 2014 and rose up to 24.3% in 2019. Also, applications through Employment Agencies were 6.3% in 2014 and rose 10.1% in 2019.
 
 On the other hand, Direct applications to Employers, application with newspapers and searching job by asking friends and relatives has decreased in this period. Direct applications to Employers percentage were 26.1% in 2014 and decreased 21.9% in 2019. We think that the main reason for the decrease in the percentage of applying jobs listed in newspapers is the change in job searching trend. Clearly, applying for jobs through websites and mobile apps has become a much easier and dynamic way of the job application process. So, the percentage of job applications through newspapers was 15.5% in 2014 and decreased to 10.4% in 2019.
 
@@ -259,7 +270,8 @@ job_search_overall_c <- job_search_overall %>%
          newspaper = to_newspaper + insert_ad_to_newspaper,
          iskur = to_emp_office + wait_call_from_emp_office,
          waiting_result = wait_result_of_app + wait_result_of_comp_for_public_sec) %>%
-  select(year, establish_own_bus, newspaper, iskur, to_emp_agencies, to_employers, to_relatives)
+  select(year, establish_own_bus, newspaper, iskur, 
+         to_emp_agencies, to_employers, to_relatives)
 
 Year <- rep(unique(job_search_overall_c$year), times = (ncol(job_search_overall_c)-1))
 
@@ -276,8 +288,10 @@ js_df_rate <- js_df %>%
 
 js_df_rate$Channel <- as.factor(js_df_rate$Channel)
 
-levels(js_df_rate$Channel) <- c("Establish Own Business", "Turkish Employment Office", "Newspaper",
-                                "Employment Agencies", "Direct Application to Employers", "Friends & Relatives")
+levels(js_df_rate$Channel) <- c("Establish Own Business", "Turkish Employment Office", 
+                                "Newspaper","Employment Agencies", 
+                                "Direct Application to Employers", 
+                                "Friends & Relatives")
 
 ggplot(js_df_rate, aes(x = Year, y = Percentage)) +
   geom_bar(stat = "identity", aes(fill = as.factor(Channel))) +
@@ -306,4 +320,4 @@ According to the upward trend, there will not be a solution for the unemployment
 + [Loading .Rdata Files](https://stackoverflow.com/questions/26108575/loading-rdata-files-from-url)
 + [Justify Text in RMarkdown](https://stackoverflow.com/questions/43222169/how-to-justify-the-text-to-both-sides-when-knitting-html-in-rmarkdown)
 
-Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
+Go to [group's progress journal.](https://pjournal.github.io/mef04g-rhapsody/)

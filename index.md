@@ -7,7 +7,6 @@
 - [Serhan Bayram](https://pjournal.github.io/mef04-SBMEFBDA/)
 - [Umut Turhan](https://pjournal.github.io/mef04-umutturhan/)
 
-
 ### Group Project
 #### Unemployment & Employment Rates in Turkey (2014-2020)
 
@@ -21,12 +20,16 @@ In the project, the change of labor force by educational level, gender, job sear
   - [Unemployment of Higher Education Graduates by Major Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
   - [.Rdata File](https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true)
 - [Exploratory Data Analysis](ExpDataAnalysis.html)
-- [Final Report](FinalReport.html)
-- [Final Presentation](FinalPresentation.html)
+- Final Report
+  - [HTML Format](FinalReport.html)
+  - [PDF Format](FinalReport.pdf)
+- Final Presentation
+  - [HTML Format](FinalPresentation.html)
+  - [PDF Format](FinalPresentation.pdf)
 - [Shiny Codes]()
 - [Shiny App]()
 
-### Group Assignment
+### Group Assignments
 #### isbike Assignment
 
 Below Shiny app contains availability and location information about isbike stations at a spesific time.

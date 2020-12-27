@@ -1610,7 +1610,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Unemployment &amp; Employment Rates in Turkey (2014-2020)</h1>
 <h4 class="author">Group Rhapsody</h4>
-<h4 class="date">Dec 26, 2020</h4>
+<h4 class="date">Dec 27, 2020</h4>
 
 </div>
 
@@ -1619,7 +1619,8 @@ div.tocify {
 body {
 text-align: justify}
 </style>
-<pre class="r"><code>load(url(&quot;https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true&quot;))</code></pre>
+<pre class="r"><code>load(url(paste0(&quot;https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages&quot;,
+                &quot;/Project_Data/project_all_data.RData?raw=true&quot;)))</code></pre>
 <div id="key-takeaways" class="section level2">
 <h2>Key Takeaways</h2>
 <ul>
@@ -1644,7 +1645,9 @@ text-align: justify}
 <pre class="r"><code>occ_group_overall_m &lt;- occ_group_overall %&gt;%
   filter(month != &quot;Annual&quot;) %&gt;%
   mutate(year = factor(year),
-         month = factor(month, levels = c(&quot;January&quot;,&quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;)))
+         month = factor(month, levels = c(&quot;January&quot;,&quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, 
+                                          &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, 
+                                          &quot;October&quot;, &quot;November&quot;, &quot;December&quot;)))
 
 occ_group_overall_m &lt;- occ_group_overall_m %&gt;%
   mutate(date = factor(paste(year, month), levels = paste(year, month)))
@@ -1670,7 +1673,8 @@ unemp_gr_female&lt;-monthly_jobsearch_female%&gt;%
   transmute(month_year = paste(year, month, sep = &quot; &quot;), total_unemployed)
 
 
-unemp_merged &lt;-merge(unemp_gr_female,unemp_gr_male, by=&quot;month_year&quot;, all=TRUE, sort = FALSE)
+unemp_merged &lt;-merge(unemp_gr_female,unemp_gr_male, by=&quot;month_year&quot;, 
+                     all=TRUE, sort = FALSE)
 
 unemp_merged &lt;- unemp_merged %&gt;%
   rename(female=total_unemployed.x, male=total_unemployed.y)
@@ -1730,10 +1734,20 @@ deneme_major_issizoran &lt;- filter(deneme_major, grepl(&quot;İşsizlik oranı&
 major_issizoran_wide &lt;- spread(deneme_major_issizoran, year, value) %&gt;%
   subset(select = -c(statistics))
 
-major_issizoran_wide$Trend &lt;- round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
+major_issizoran_wide$Trend &lt;- 
+  round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
 
 major_issizoran_wide$Major &lt;- as.factor(major_issizoran_wide$Major)
-levels(major_issizoran_wide$Major) &lt;- c(&quot;Agriculture, forestry and fishery&quot;,&quot;Architecture and construction&quot;, &quot;Arts&quot;, &quot;Biology &amp; Env. Sci.&quot;, &quot;Business &amp; Admin.&quot;, &quot;Education&quot;, &quot;Engineering and engineering trades&quot;, &quot;Health&quot;, &quot;Higher education graduate&quot;, &quot;Humanities&quot;, &quot;Info. &amp; Comm. Tech.&quot;, &quot;Journalism &amp; Info.&quot;, &quot;Languages&quot;, &quot;Law&quot;, &quot;Manufacturing and processing&quot;, &quot;Mathematics and statistics&quot;, &quot;Occupational health and transport services&quot;, &quot;Personal Services&quot;, &quot;Physical science&quot;, &quot;Security Services&quot;, &quot;Social and behavioural sciences&quot;, &quot;Veterinary&quot;, &quot;Welfare (Social services)&quot;)
+levels(major_issizoran_wide$Major) &lt;- 
+  c(&quot;Agriculture, forestry and fishery&quot;,&quot;Architecture and construction&quot;, 
+    &quot;Arts&quot;, &quot;Biology &amp; Env. Sci.&quot;, &quot;Business &amp; Admin.&quot;, &quot;Education&quot;, 
+    &quot;Engineering and engineering trades&quot;, &quot;Health&quot;, 
+    &quot;Higher education graduate&quot;, &quot;Humanities&quot;, &quot;Info. &amp; Comm. Tech.&quot;,
+    &quot;Journalism &amp; Info.&quot;, &quot;Languages&quot;, &quot;Law&quot;, &quot;Manufacturing and processing&quot;,
+    &quot;Mathematics and statistics&quot;, &quot;Occupational health and transport services&quot;,
+    &quot;Personal Services&quot;, &quot;Physical science&quot;, &quot;Security Services&quot;, 
+    &quot;Social and behavioural sciences&quot;, &quot;Veterinary&quot;, 
+    &quot;Welfare (Social services)&quot;)
 
 major_top5 &lt;- major_issizoran_wide %&gt;%
   top_n(5, Trend)
@@ -2021,7 +2035,8 @@ kable(mutate(major_issizoran_wide, across(where(is.numeric), round, 1)))</code><
          newspaper = to_newspaper + insert_ad_to_newspaper,
          iskur = to_emp_office + wait_call_from_emp_office,
          waiting_result = wait_result_of_app + wait_result_of_comp_for_public_sec) %&gt;%
-  select(year, establish_own_bus, newspaper, iskur, to_emp_agencies, to_employers, to_relatives)
+  select(year, establish_own_bus, newspaper, iskur, 
+         to_emp_agencies, to_employers, to_relatives)
 
 Year &lt;- rep(unique(job_search_overall_c$year), times = (ncol(job_search_overall_c)-1))
 
@@ -2038,8 +2053,10 @@ js_df_rate &lt;- js_df %&gt;%
 
 js_df_rate$Channel &lt;- as.factor(js_df_rate$Channel)
 
-levels(js_df_rate$Channel) &lt;- c(&quot;Establish Own Business&quot;, &quot;Turkish Employment Office&quot;, &quot;Newspaper&quot;,
-                                &quot;Employment Agencies&quot;, &quot;Direct Application to Employers&quot;, &quot;Friends &amp; Relatives&quot;)
+levels(js_df_rate$Channel) &lt;- c(&quot;Establish Own Business&quot;, &quot;Turkish Employment Office&quot;, 
+                                &quot;Newspaper&quot;,&quot;Employment Agencies&quot;, 
+                                &quot;Direct Application to Employers&quot;, 
+                                &quot;Friends &amp; Relatives&quot;)
 
 ggplot(js_df_rate, aes(x = Year, y = Percentage)) +
   geom_bar(stat = &quot;identity&quot;, aes(fill = as.factor(Channel))) +
@@ -2070,7 +2087,7 @@ ggplot(js_df_rate, aes(x = Year, y = Percentage)) +
 <li><a href="https://stackoverflow.com/questions/26108575/loading-rdata-files-from-url">Loading .Rdata Files</a></li>
 <li><a href="https://stackoverflow.com/questions/43222169/how-to-justify-the-text-to-both-sides-when-knitting-html-in-rmarkdown">Justify Text in RMarkdown</a></li>
 </ul>
-<p>Back to <a href="https://pjournal.github.io/mef04g-rhapsody/">our progress journal.</a></p>
+<p>Go to <a href="https://pjournal.github.io/mef04g-rhapsody/">group’s progress journal.</a></p>
 </div>
 
 
