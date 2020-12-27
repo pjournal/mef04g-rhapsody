@@ -52,14 +52,13 @@ Unemployment has become one of the significant problems to be solved in Turkey. 
 
 ### Overview Regarding Unemployment in Turkey (2014-2020)
 
-After visualization of the Unemployed Job Searching People by the Channel dataset, the seasonal effect in unemployment has became evident by year after year on graph despite the yearly increase in total unemployment. As a result of coup attempt in 2016, there is a significant increase in unemployment that year and also a result of depreciation of Turkish Lira in 2018, there is sharp increase in unemployment that can be seen on graph.
+After visualization of the Unemployed Job Searching People by the Channel dataset, the seasonal effect in unemployment has became evident by year after year on graph despite the yearly increase in total unemployment. As a result of major events in 2016 and 2018, there can be seen a significant increase on unemployment in these years.
 
 When we examine our data by gender, male workers have been effected more than women in percentage from the unemployment increase in 2018 which is triggered by the depreciation of Turkish Lira.
 
-Based on the yearly unemployment distribution by gender, we can see the similar movements on both genders has interrupted only one time in 2020. This can be caused by the more participation of women labor in seasonal jobs.
+Based on the yearly unemployment distribution by gender, we can see the similar movements on both genders has interrupted only one time in 2020. This can be caused by the more participation of female workers in seasonal jobs.
 
 After examining the yearly change in unemployment one by one, we can easily see the seasonal effect on every single year. Although the similar movement on the selected years, only the graph of 2017 has a different movement at the end of the year, which is caused by the base effect on calculating the 2017 data. After the significant increase in 2016, eliminating the monthly unemployment numbers of 2016 has caused an increase in when calculating the monthly data of 2017.
-
 
 ```{r overview,  fig.width=10}
 occ_group_overall_m <- occ_group_overall %>%
@@ -150,7 +149,6 @@ unemp_yearly_educational_melt$Education_Level <- as.factor(unemp_yearly_educatio
 levels(unemp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
 ```
 
-
 The general distribution of workforce has begun to change over the years. The graphs depict that, employment and unemployment rates for the people who have a higher degree, has increased constantly. However in contrary, the rates have started fallen for the people who have a less than highschool degree. 
 
 The employment rate for Higher Education category has increased from 19.6% to 25.3% in six years. On the other hand the unemployment rates has reached to 26.9% in 2018 and then has dropped to 25.1% in 2019. On the other side of the coin, both rates for people who owning less than a highschool degree has decreased respectively from 56.2% to 50.4% and from 53.1% to 48.3%. This can be interpreted as; the proportion of people that owning a higher education degree getting bigger by years and, the proportion of the people who have a less than a highschool degree getting smaller in total workforce. Thus, the proportion of "Higher Education" group in employment will surpass the "Less Than Highschool" group roughly in ten years.
@@ -165,6 +163,7 @@ ggplot(emp_yearly_educational_melt, aes(x = year, y = Percentage)) +
   geom_text(aes(label = paste0(Percentage, "%"), vjust = -1), size = 3) +
   facet_wrap(~ Education_Level)+
   labs(title="Employment Rates by Education Level",
+       x="Year",
        y="% of People")+
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
@@ -175,6 +174,7 @@ ggplot(unemp_yearly_educational_melt, aes(x = year, y = Percentage)) +
   geom_text(aes(label = paste0(Percentage, "%"), vjust = -1), size = 3) +
   facet_wrap(~ Education_Level)+
   labs(title="Unemployment Rates by Education Level",
+       x="Year",
        y="% of People")+
   theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
 
@@ -195,28 +195,28 @@ All in all, trend column in the table provides an overview of the percentage cha
 ```{r last graduated major, fig.width=10}
 
 deneme_major <- last_graduated_major %>%
-  gather(key = "major", value = "value", -year, -statistics)
+  gather(key = "Major", value = "value", -year, -statistics)
 
 deneme_major_issizoran <- filter(deneme_major, grepl("İşsizlik oranı", statistics))
 
 major_issizoran_wide <- spread(deneme_major_issizoran, year, value) %>%
   subset(select = -c(statistics))
 
-major_issizoran_wide$trend <- round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
+major_issizoran_wide$Trend <- round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
 
-major_issizoran_wide$major <- as.factor(major_issizoran_wide$major)
-levels(major_issizoran_wide$major) <- c("Agriculture, forestry and fishery","Architecture and construction", "Arts", "Biology & Env. Sci.", "Business & Admin.", "Education", "Engineering and engineering trades", "Health", "Higher education graduate", "Humanities", "Info. & Comm. Tech.", "Journalism & Info.", "Languages", "Law", "Manufacturing and processing", "Mathematics and statistics", "Occupational health and transport services", "Personal Services", "Physical science", "Security Services", "Social and behavioural sciences", "Veterinary", "Welfare (Social services)")
+major_issizoran_wide$Major <- as.factor(major_issizoran_wide$Major)
+levels(major_issizoran_wide$Major) <- c("Agriculture, forestry and fishery","Architecture and construction", "Arts", "Biology & Env. Sci.", "Business & Admin.", "Education", "Engineering and engineering trades", "Health", "Higher education graduate", "Humanities", "Info. & Comm. Tech.", "Journalism & Info.", "Languages", "Law", "Manufacturing and processing", "Mathematics and statistics", "Occupational health and transport services", "Personal Services", "Physical science", "Security Services", "Social and behavioural sciences", "Veterinary", "Welfare (Social services)")
 
 major_top5 <- major_issizoran_wide %>%
-  top_n(5, trend)
+  top_n(5, Trend)
 
 major_last5 <- major_issizoran_wide %>%
-  arrange(trend) %>%
+  arrange(Trend) %>%
   head(5)
 
 kable(mutate(major_issizoran_wide, across(where(is.numeric), round, 1)))
 
-ggplot(major_top5, aes(factor(major, levels = major), trend, fill = major)) +
+ggplot(major_top5, aes(factor(Major, levels = Major), Trend, fill = Major)) +
   geom_col(position = "dodge") +
   theme(legend.position = "none",
         plot.title = element_text(hjust = 0.5))  +
@@ -225,7 +225,7 @@ ggplot(major_top5, aes(factor(major, levels = major), trend, fill = major)) +
        y = "Percentage of Change from 2014 to 2019",
        title = "Top 5 Major by Unemployment Rate Trend")
 
-ggplot(major_last5, aes(factor(major, levels = major), trend, fill = major)) +
+ggplot(major_last5, aes(factor(Major, levels = Major), Trend, fill = Major)) +
   geom_col(position = "dodge") +
   theme(legend.position = "none",
         plot.title = element_text(hjust = 0.5))  +
@@ -292,7 +292,16 @@ According to the upward trend, there will not be a solution for the unemployment
 
 ## References
 
-+ []()
++ [Unemployed Job Searching People by the Channel Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8)
++ [Employed & Unemployed by Educational Level Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
++ [Unemployment by Occupational Group Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
++ [Labour Force Status of Higher Education Graduates by Major Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
++ [Reading .xls Files From URL](https://github.com/tidyverse/readxl/issues/183)
++ [Creating .Rdata Files](https://bookdown.org/ndphillips/YaRrr/rdata-files.html)
++ [Filling Empty Values with Previous Values in a Column](https://stackoverflow.com/questions/40040834/replace-na-with-previous-or-next-value-by-group-using-dplyr/40041172)
++ [Adding Data Labels to Plot](https://www.r-bloggers.com/2020/04/adding-labels-to-a-ggplot2-bar-chart/)
++ [Creating Percent Stacked Bar Chart](https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html)
++ [Loading .Rdata Files](https://stackoverflow.com/questions/26108575/loading-rdata-files-from-url)
++ [Justify Text in RMarkdown](https://stackoverflow.com/questions/43222169/how-to-justify-the-text-to-both-sides-when-knitting-html-in-rmarkdown)
 
 Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)
-
