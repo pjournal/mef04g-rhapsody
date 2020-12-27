@@ -15,6 +15,11 @@ In the project, the change of labor force by educational level, gender, job sear
 
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
 - [Data Preprocessing](DataPreprocessing.html)
+  - [Unemployed Job Searching People by the Channel Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=YD6JGk3HAkwb1wQadeYsjp8iMZJ1cmLtRnMCRXPG3aOudsWPijD1R0XxxA54Ehu8)
+  - [Employed & Unemployed by Educational Level Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=bWJMnEy0j6UZHm1gD5qqGkGNWSNKDEJ4I57rthEhkNd9qHF6QHUpwQl25NrXRpAg)
+  - [Unemployment by Occupational Group Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=VyBwucwx3Wx2uJXGxoM3soWzPxQv5BRhYRELMU0FhptFZ5Ythna2czyzH6s4rDxR)
+  - [Labour Force Status of Higher Education Graduates by Major Dataset](https://data.tuik.gov.tr/Bulten/DownloadIstatistikselTablo?p=vLICiE6Ol0yQYtmtU/kJ2JEnAr8Q14emL5iDhwHMpzChnPnzsVhz1tXV3REhaV9R)
+  - [.Rdata File](https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true)
 - [Exploratory Data Analysis](ExpDataAnalysis.html)
 - [Final Report](FinalReport.html)
 - [Final Presentation](FinalPresentation.html)

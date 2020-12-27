@@ -235,6 +235,8 @@ save(job_search_overall, job_search_male, job_search_female, educational_level_o
      file = "project_all_data.RData") 
 ```
 
+The created .Rdata file can be reached through [**this link**](https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true).
+
 ### References
 
 + [Reading .xls Files From URL](https://github.com/tidyverse/readxl/issues/183)

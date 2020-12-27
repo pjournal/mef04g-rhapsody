@@ -2,15 +2,17 @@
 title: "Unemployment & Employment Rates in Turkey (2014-2020)"
 author: "Group Rhapsody"
 date: "Dec 26, 2020"
-output: 
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
   html_document:
     code_folding: hide
-    toc: true
-    toc_float: 
-      collapsed: false
-      smooth_scroll: true
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
     toc_depth: 5
-    
 ---
 <style>
 body {
