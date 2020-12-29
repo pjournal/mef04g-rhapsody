@@ -1,0 +1,443 @@
+---
+title: "Project Shiny App Codes"
+author: "Group Rhapsody"
+date: "Dec 29, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Importing Necessary Libraries
+
+```{r, eval=FALSE}
+library(shiny)
+library(tidyverse)
+library(DT)
+```
+
+### Reading, Preparing and Cleaning Data
+
+```{r, eval=FALSE}
+
+load(url("https://github.com/pjournal/mef04g-rhapsody/blob/gh-pages/Project_Data/project_all_data.RData?raw=true"))
+
+#Total Unemployment Data
+occ_group_overall_m <- occ_group_overall %>%
+  filter(month != "Annual") %>%
+  mutate(year = factor(year),
+         month = factor(month, levels = c("January","February", "March", 
+                                          "April", "May", "June", "July", "August", "September", "October", "November", "December")))
+occ_group_overall_m <- occ_group_overall_m %>%
+  mutate(date = factor(paste(year, month), levels = paste(year, month)))
+
+
+
+#Unemployment by Gender Data
+monthly_jobsearch_male <- filter(job_search_male, !grepl("Annual", month))
+monthly_jobsearch_female <- filter(job_search_female, !grepl("Annual", month))
+
+unemp_gr_male<-monthly_jobsearch_male %>%
+  transmute(date = paste(year, month, sep = " "), total_unemployed)
+
+unemp_gr_female<-monthly_jobsearch_female %>%
+  transmute(date = paste(year, month, sep = " "), total_unemployed)
+
+
+unemp_merged <-merge(unemp_gr_female,unemp_gr_male, by="date", all=TRUE, sort = FALSE)
+
+unemp_merged <- unemp_merged %>%
+  rename(female=total_unemployed.x, male=total_unemployed.y)
+
+unemp_merged$date <- as.character(unemp_merged$date)
+unemp_merged$date <- factor(unemp_merged$date, level=unemp_merged$date)
+
+
+#Educational Level Data
+yearly_educational <- filter(educational_level_overall, grepl("Annual", month))
+total_labour_yearly_educational <- yearly_educational%>%
+  transmute(year=as.character(year),illeterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
+
+emp_yearly_educational <- yearly_educational %>%
+  transmute(year=as.character(year), illeterate=emp_illeterate, less_than_hs=emp_less_than_hs, highschool=emp_highschool, voc_hs=emp_voc_hs, higher_ed=emp_higher_ed)
+
+emp_yearly_educational_melt<-emp_yearly_educational %>%
+  gather(key="Education_Level", value="Person", -year ) %>%
+  group_by(year) %>%
+  mutate(Percentage= round(Person/sum(Person) * 100, 1))
+
+emp_yearly_educational_melt$Education_Level <- as.factor(emp_yearly_educational_melt$Education_Level)
+
+levels(emp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
+
+
+
+unemp_yearly_educational <- yearly_educational %>%
+  transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
+
+unemp_yearly_educational <- yearly_educational %>%
+  transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
+
+unemp_yearly_educational_melt <- unemp_yearly_educational %>%
+  gather(key="Education_Level", value="Person", -year ) %>%
+  group_by(year) %>%
+  mutate(Percentage= round(Person/sum(Person) * 100, 1))
+
+unemp_yearly_educational_melt$Education_Level <- as.factor(unemp_yearly_educational_melt$Education_Level)
+
+levels(unemp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
+
+
+unemp_yearly_educational_melt %>% 
+  filter(levels(Education_Level) %in% c("Higher Education", "Illeterate"))
+
+
+
+#Major
+deneme_major <- last_graduated_major %>%
+  gather(key = "Major", value = "value", -year, -statistics)
+
+deneme_major_issizoran <- filter(deneme_major, grepl("İşsizlik oranı", statistics))
+
+major_issizoran_wide <- spread(deneme_major_issizoran, year, value) %>%
+  subset(select = -c(statistics))
+
+major_issizoran_wide$Trend <- 
+  round(((major_issizoran_wide$`2019`/major_issizoran_wide$`2014`)-1)*100,1)
+
+major_issizoran_wide$Major <- as.factor(major_issizoran_wide$Major)
+levels(major_issizoran_wide$Major) <- 
+  c("Agriculture, forestry and fishery","Architecture and construction", 
+    "Arts", "Biology & Env. Sci.", "Business & Admin.", "Education", 
+    "Engineering and engineering trades", "Health", 
+    "Higher education graduate", "Humanities", "Info. & Comm. Tech.",
+    "Journalism & Info.", "Languages", "Law", "Manufacturing and processing",
+    "Mathematics and statistics", "Occupational health and transport services",
+    "Personal Services", "Physical science", "Security Services", 
+    "Social and behavioural sciences", "Veterinary", 
+    "Welfare (Social services)")
+
+
+#Job Search Channel
+job_search_overall_c <- job_search_overall %>%
+  filter(month == "Annual") %>%
+  mutate(year = factor(year), 
+         establish_own_bus = look_place_equip_to_est_bus + look_credit_license_to_est_bus,
+         newspaper = to_newspaper + insert_ad_to_newspaper,
+         iskur = to_emp_office + wait_call_from_emp_office,
+         waiting_result = wait_result_of_app + wait_result_of_comp_for_public_sec) %>%
+  select(year, establish_own_bus, newspaper, iskur, 
+         to_emp_agencies, to_employers, to_relatives)
+
+Year <- rep(unique(job_search_overall_c$year), times = (ncol(job_search_overall_c)-1))
+
+Channel <- rep(colnames(job_search_overall_c[-c(1,1)]),
+               each = length(unique(Year)))
+
+Count <- array(unlist(job_search_overall_c[1:6,2:7]))
+
+js_df <- data.frame(Year, Channel, Count)
+
+js_df_rate <- js_df %>%
+  group_by(Year) %>%
+  mutate(Percentage = round(Count/sum(Count) * 100, 1))
+
+js_df_rate$Channel <- as.factor(js_df_rate$Channel)
+
+levels(js_df_rate$Channel) <- c("Establish Own Business", "Turkish Employment Office", 
+                                "Newspaper","Employment Agencies", 
+                                "Direct Application to Employers", 
+                                "Friends & Relatives")
+```
+
+### Shiny Codes
+
+```{r, eval=FALSE}
+# UI Part
+ui <- fluidPage(
+  
+  # Application title
+  titlePanel("Unemployment & Employment Rates in Turkey (2014-2020)"),
+  
+  tabsetPanel(
+    tabPanel("Total Unemployment",
+             fluidRow(br(),
+                      column(4, column(6,
+                                       selectInput(inputId = "month1",
+                                                   label = "Select Month",
+                                                   choices = c("January","February", "March", "April", "May","June", 
+                                                               "July", "August", "September", "October", "November", "December"),
+                                                   multiple= FALSE,
+                                                   selected = "January"),
+                                       selectInput(inputId = "month2",
+                                                   label = "Select Month",
+                                                   choices = c("January","February", "March", "April", "May", "June", 
+                                                               "July", "August", "September", "October", "November", "December"),
+                                                   multiple= FALSE,
+                                                   selected = "August")
+                      ),
+                      column(6,
+                             selectInput(inputId = "year1",
+                                         label = "Select Year",
+                                         choices = c(2014:2020),
+                                         multiple= FALSE,
+                                         selected = 2014),
+                             selectInput(inputId = "year2",
+                                         label = "Select Year",
+                                         choices = c(2014:2020),
+                                         multiple= FALSE,
+                                         selected = 2020)
+                      ),
+                      column(12,
+                             em("The visualization of unemployment in years has shown us the continuously rise in unemployment in Turkey and sharp increasements which is caused by the major events in 2016 and 2018.")
+                      )
+                      ),
+                      column(8,
+                             plotOutput("unempPlot"),
+                             br(),
+                             br(),
+                             plotOutput("genderPlot")
+                      )
+             )), 
+    tabPanel("Educational Level",
+             fluidRow(br(),
+                      column(4, column(12,
+                                       selectInput(inputId = "edulevel_emp",
+                                                   label = "Educational Level for Employed",
+                                                   choices = c("All", levels(emp_yearly_educational_melt$Education_Level)),
+                                                   multiple= TRUE,
+                                                   selected = "All"),
+                                       selectInput(inputId = "edulevel_unemp",
+                                                   label = "Educational Level for Unemployed",
+                                                   choices = c("All", levels(unemp_yearly_educational_melt$Education_Level)),
+                                                   multiple= TRUE,
+                                                   selected = "All")
+                      ),
+                      column(12,
+                             em("We analyzed the trends of employment and unemployment rates over the years among education level categories. As a result, upward trends for higher education category for both rates has been found, however, there are downward trends for less than a highschool degree category. Which could be a sign as; the proportion of categories in total workforce changing in opposite directions and there could be a different picture in ten years.")
+                      )
+                      ),
+                      column(8,
+                             plotOutput("emp_edulevelPlot"),
+                             br(),
+                             br(),
+                             plotOutput("unemp_edulevelPlot")
+                      )
+             )),
+    tabPanel("Unemployment by Major",
+             fluidRow(br(),
+                      column(4, column(12,
+                                       selectInput(inputId = "major_input",
+                                                   label = "Higher Education Graduates by Their Major",
+                                                   choices = c("All", levels(major_issizoran_wide$Major)),
+                                                   multiple= TRUE,
+                                                   selected = "All")
+                      ),
+                      column(12,
+                             em("We analyzed the unemployment of higher education graduates under 20 different majors. Even for the major Health which has been considered as a safe choice in terms of employability, we observed a sharp increase in the unemployment rate for the graduates. (3.14% to 11.4% between 2014 and 2019)")
+                      )
+                      ),
+                      column(8,
+                             DTOutput("majorTable")
+                      )
+             )),
+    tabPanel("Job Searching Channel",
+             fluidRow(br(),
+                      column(4, column(12,
+                                       selectInput(inputId = "search_input",
+                                                   label = "Job Search Channel",
+                                                   choices = c("All", levels(js_df_rate$Channel)),
+                                                   multiple= TRUE,
+                                                   selected = "All")
+                      ),
+                      column(12,
+                             em("We have analyzed job searching channels and their trends over years. Contrary to expectations, higher education graduates need to apply a job through the Turkish Employment Office and Agency. This might be related to decline in job opportunities.")
+                      )
+                      ),
+                      column(8,
+                             plotOutput("search_plot")
+                      )
+             )),
+    tabPanel("Conclusion",
+             fluidRow(column(12,
+                             h2("Rhapsody Group Project"),
+                             h3("Conclusions"),
+                             div("After the analysis, we can make the following conclusions:"),
+                             br(),
+                             tags$li("Number of unemployed in January 2014 is nearly 2.8 million, in August 2020 is nearly 4.2 million. An increase of 50%."),
+                             tags$li("Higher Education and Less Than Highschool levels have the opposite trends both in employment and unemployment."),
+                             tags$li("Some safe-considered majors have increasing unemployment rates such as Health, Architecture and Engineering."),
+                             tags$li("Increase in the number of job applications through Turkish Employment Office, might be related with the decline in job opportunities."),
+                             br(),
+                             div("More details can be found at",code(a("Rhapsody's Progress Journal", href="https://pjournal.github.io/mef04g-rhapsody/")))
+                             )
+                      )
+             )
+  ))
+
+
+
+# Server Part
+server <- function(input, output) {
+  
+  output$unempPlot <- renderPlot({
+    
+    first_date <- paste(input$year1, input$month1, sep=" ")
+    second_date <- paste(input$year2, input$month2, sep=" ")
+    
+    if (first_date %in% c("2020 September", "2020 October", "2020 November", "2020 December")) {
+      first_date <- "2020 August"
+    }
+    
+    if (second_date %in% c("2020 September", "2020 October", "2020 November", "2020 December")) {
+      second_date <- "2020 August"
+    }
+    
+    occ_group_overall_m <- occ_group_overall_m %>%
+      mutate(date = factor(paste(year, month), levels = paste(year, month)))
+    
+    df <- occ_group_overall_m[match(first_date,occ_group_overall_m$date): match(second_date,occ_group_overall_m$date), c("date", "total_unemployed")]
+    
+    ggplot(df, aes(date, total_unemployed)) +
+      geom_line(aes(group = 1)) +
+      labs(x = "",
+           y = "Unemployment (in thousands)") +
+      theme(axis.ticks.x = element_blank(),
+            axis.text.x = element_text(angle = 45, size = 9,  hjust = 1))
+    
+  })
+  
+  
+  
+  output$genderPlot <- renderPlot({
+    
+    first_date <- paste(input$year1, input$month1, sep=" ")
+    second_date <- paste(input$year2, input$month2, sep=" ")
+    
+    if (first_date %in% c("2020 September", "2020 October", "2020 November", "2020 December")) {
+      first_date <- "2020 August"
+    }
+    
+    if (second_date %in% c("2020 September", "2020 October", "2020 November", "2020 December")) {
+      second_date <- "2020 August"
+    }
+    
+    df <- unemp_merged[match(first_date,unemp_merged$date): match(second_date,unemp_merged$date), c("date", "female", "male")]
+    
+    ggplot(df, aes(x=factor(date))) +
+      geom_line(aes(y=female, color="Female", group=1))+
+      geom_line(aes(y=male, color="Male", group=1))+
+      theme(axis.text.x = element_text(angle=45, size=9, hjust = 1),
+            plot.title = element_text(hjust = 0.5))+
+      labs(title = "Unemployment by Gender Over the Years",
+           x="",
+           y="Unemployment (in thousands)",
+           color="Gender")
+    
+    })
+  
+  
+  
+  output$emp_edulevelPlot <- renderPlot ({
+    
+    
+    if (is.null(input$edulevel_emp)) {
+      emp_edu_level_plot <- emp_yearly_educational_melt
+    }
+    else if (!("All" %in% input$edulevel_emp)) {
+      emp_edu_level_plot <- emp_yearly_educational_melt %>% filter(Education_Level %in% input$edulevel_emp)
+    }
+    else {
+      emp_edu_level_plot <- emp_yearly_educational_melt
+    }
+
+    ggplot(emp_edu_level_plot, aes(x = year, y = Percentage)) +
+      geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
+      coord_cartesian(ylim=c(0,70))+
+      geom_text(aes(label = paste0(Percentage, "%"), vjust = -1), size = 3) +
+      facet_wrap(~ Education_Level)+
+      labs(title="Employment Rates by Education Level",
+           x="Year",
+           y="% of People")+
+      theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
+    
+  })
+  
+  
+  
+  
+  output$unemp_edulevelPlot <- renderPlot ({
+    
+    if (is.null(input$edulevel_unemp)) {
+      unemp_edu_level_plot <- unemp_yearly_educational_melt
+    }
+    else if (!("All" %in% input$edulevel_unemp)) {
+      unemp_edu_level_plot <- unemp_yearly_educational_melt %>% filter(Education_Level %in% input$edulevel_unemp)
+    }
+    else {
+      unemp_edu_level_plot <- unemp_yearly_educational_melt
+    }
+      
+    ggplot(unemp_edu_level_plot, aes(x = year, y = Percentage)) +
+      geom_bar(stat = "identity", aes(fill = as.factor(Education_Level))) +
+      coord_cartesian(ylim=c(0,70))+
+      geom_text(aes(label = paste0(Percentage, "%"), vjust = -1), size = 3) +
+      facet_wrap(~ Education_Level)+
+      labs(title="Unemployment Rates by Education Level",
+           x="Year",
+           y="% of People")+
+      theme(legend.position = "none",  plot.title = element_text(hjust = 0.5))
+    
+  })
+  
+  
+  
+  output$majorTable <- renderDT({
+    
+    if (is.null(input$major_input)) {
+      major_df <- major_issizoran_wide
+    }
+    else if (!("All" %in% input$major_input)) {
+      major_df <- major_issizoran_wide %>% filter(Major %in% input$major_input)
+    }
+    else {
+      major_df <- major_issizoran_wide
+    }
+    
+    major_df <- mutate(major_df, across(where(is.numeric), round, 1))
+    
+  })
+  
+  
+  
+  output$search_plot <- renderPlot ({
+    
+    if (is.null(input$search_input)) {
+      search_df <- js_df_rate
+    }
+    else if (!("All" %in% input$search_input)) {
+      search_df <- js_df_rate %>% filter(Channel %in% input$search_input)
+    }
+    else {
+      search_df <- js_df_rate
+    }
+    
+    ggplot(search_df, aes(x = Year, y = Percentage)) +
+      geom_bar(stat = "identity", aes(fill = as.factor(Channel))) +
+      geom_text(aes(label = paste0(Percentage, "%"), vjust = -1)) +
+      facet_wrap(~Channel) +
+      ggtitle("Rates of Job Search Channel Among All") + 
+      theme(legend.position = "none",  plot.title = element_text(hjust = 0.5)) +
+      scale_y_continuous(limits = c(0,40))
+    
+  })
+  
+}
+
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+Back to [our progress journal.](https://pjournal.github.io/mef04g-rhapsody/)

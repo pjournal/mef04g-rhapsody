@@ -337,5 +337,5 @@ class: center, middle
 
 [Final Report](https://pjournal.github.io/mef04g-rhapsody/FinalReport.html)
 
-[Shiny App]()
+[Shiny App](https://serhanbayrambda.shinyapps.io/project_shiny_app/)
 

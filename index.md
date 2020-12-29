@@ -29,8 +29,10 @@ In the project, the change of labor force by educational level, gender, job sear
   - [Teaser](https://youtu.be/6uRlfOp_ZzU)
   - [HTML Format](FinalPresentation.html)
   - [PDF Format](FinalPresentation.pdf)
-- [Shiny Codes]()
-- [Shiny App]()
+- [Shiny Codes](ProjectShinyApp.html)
+- [Shiny App](https://serhanbayrambda.shinyapps.io/project_shiny_app/)
+- Running below code in R Console, you can reach the Shiny App as well.
+**shiny::runGitHub("pjournal/mef04g-rhapsody", subdir = "project_shiny_app", ref = "gh-pages")**
 
 ### Group Assignments
 #### isbike Assignment
