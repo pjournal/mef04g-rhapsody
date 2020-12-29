@@ -1695,6 +1695,37 @@ ggplot(unemp_merged, aes(x=factor(month_year))) +
 </div>
 <div id="employed-unemployed-by-educational-level" class="section level3">
 <h3>Employed &amp; Unemployed by Educational Level</h3>
+<pre class="r"><code>yearly_educational &lt;- filter(educational_level_overall, grepl(&quot;Annual&quot;, month))
+total_labour_yearly_educational &lt;- yearly_educational%&gt;%
+  transmute(year=as.character(year),illeterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
+
+total_labour_yearly_educational_melt &lt;- total_labour_yearly_educational %&gt;%
+  gather(key=&quot;type&quot;, value=&quot;value&quot;, -year) %&gt;%
+  group_by(year) %&gt;%
+  mutate(Percentage= round(value/sum(value) * 100, 1))
+
+
+emp_yearly_educational &lt;- yearly_educational %&gt;%
+  transmute(year=as.character(year), illeterate=emp_illeterate, less_than_hs=emp_less_than_hs, highschool=emp_highschool, voc_hs=emp_voc_hs, higher_ed=emp_higher_ed)
+
+emp_yearly_educational_melt&lt;-emp_yearly_educational %&gt;%
+  gather(key=&quot;Education_Level&quot;, value=&quot;Person&quot;, -year ) %&gt;%
+  group_by(year) %&gt;%
+  mutate(Percentage= round(Person/sum(Person) * 100, 1))
+
+emp_yearly_educational_melt$Education_Level &lt;- as.factor(emp_yearly_educational_melt$Education_Level)
+levels(emp_yearly_educational_melt$Education_Level) &lt;- c(&quot;Higher Education&quot;, &quot;Highschool&quot;, &quot;Illeterate&quot;, &quot;Less Than Highschool&quot;, &quot;Vocational Highschool&quot;)
+
+unemp_yearly_educational &lt;- yearly_educational %&gt;%
+  transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
+
+unemp_yearly_educational_melt&lt;-unemp_yearly_educational %&gt;%
+  gather(key=&quot;Education_Level&quot;, value=&quot;Person&quot;, -year ) %&gt;%
+  group_by(year) %&gt;%
+  mutate(Percentage= round(Person/sum(Person) * 100, 1))
+
+unemp_yearly_educational_melt$Education_Level &lt;- as.factor(unemp_yearly_educational_melt$Education_Level)
+levels(unemp_yearly_educational_melt$Education_Level) &lt;- c(&quot;Higher Education&quot;, &quot;Highschool&quot;, &quot;Illeterate&quot;, &quot;Less Than Highschool&quot;, &quot;Vocational Highschool&quot;)</code></pre>
 <p>The general distribution of workforce has begun to change over the years. The graphs depict that, employment and unemployment rates for the people who have a higher degree, has increased constantly. However in contrary, the rates have started fallen for the people who have a less than highschool degree.</p>
 <p>The employment rate for Higher Education category has increased from 19.6% to 25.3% in six years. On the other hand the unemployment rates has reached to 26.9% in 2018 and then has dropped to 25.1% in 2019. On the other side of the coin, both rates for people who owning less than a highschool degree has decreased respectively from 56.2% to 50.4% and from 53.1% to 48.3%. This can be interpreted as; the proportion of people that owning a higher education degree getting bigger by years and, the proportion of the people who have a less than a highschool degree getting smaller in total workforce. Thus, the proportion of “Higher Education” group in employment will surpass the “Less Than Highschool” group roughly in ten years.</p>
 <pre class="r"><code>#Employment Graph

@@ -3,9 +3,6 @@ title: "Unemployment & Employment Rates in Turkey (2014-2020)"
 author: "Group Rhapsody"
 date: "Dec 27, 2020"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '5'
   html_document:
     code_folding: hide
     toc: yes
@@ -13,6 +10,9 @@ output:
       collapsed: no
       smooth_scroll: yes
     toc_depth: 5
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
 ---
 <style>
 body {
@@ -119,7 +119,7 @@ ggplot(unemp_merged, aes(x=factor(month_year))) +
 
 ### Employed & Unemployed by Educational Level
 
-```{r, include=FALSE}
+```{r}
 yearly_educational <- filter(educational_level_overall, grepl("Annual", month))
 total_labour_yearly_educational <- yearly_educational%>%
   transmute(year=as.character(year),illeterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
