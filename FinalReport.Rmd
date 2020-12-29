@@ -3,6 +3,9 @@ title: "Unemployment & Employment Rates in Turkey (2014-2020)"
 author: "Group Rhapsody"
 date: "Dec 27, 2020"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
   html_document:
     code_folding: hide
     toc: yes
@@ -10,9 +13,6 @@ output:
       collapsed: no
       smooth_scroll: yes
     toc_depth: 5
-  pdf_document:
-    toc: yes
-    toc_depth: '5'
 ---
 <style>
 body {
@@ -122,7 +122,9 @@ ggplot(unemp_merged, aes(x=factor(month_year))) +
 ```{r}
 yearly_educational <- filter(educational_level_overall, grepl("Annual", month))
 total_labour_yearly_educational <- yearly_educational%>%
-  transmute(year=as.character(year),illeterate=lf_illeterate, less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, higher_ed=lf_higher_ed)
+  transmute(year=as.character(year),illeterate=lf_illeterate, 
+            less_than_hs=lf_less_than_hs, highschool=lf_highschool, voc_hs=lf_voc_hs, 
+            higher_ed=lf_higher_ed)
 
 total_labour_yearly_educational_melt <- total_labour_yearly_educational %>%
   gather(key="type", value="value", -year) %>%
@@ -131,26 +133,36 @@ total_labour_yearly_educational_melt <- total_labour_yearly_educational %>%
 
 
 emp_yearly_educational <- yearly_educational %>%
-  transmute(year=as.character(year), illeterate=emp_illeterate, less_than_hs=emp_less_than_hs, highschool=emp_highschool, voc_hs=emp_voc_hs, higher_ed=emp_higher_ed)
+  transmute(year=as.character(year), illeterate=emp_illeterate,
+            less_than_hs=emp_less_than_hs, highschool=emp_highschool, voc_hs=emp_voc_hs, 
+            higher_ed=emp_higher_ed)
 
 emp_yearly_educational_melt<-emp_yearly_educational %>%
   gather(key="Education_Level", value="Person", -year ) %>%
   group_by(year) %>%
   mutate(Percentage= round(Person/sum(Person) * 100, 1))
 
-emp_yearly_educational_melt$Education_Level <- as.factor(emp_yearly_educational_melt$Education_Level)
-levels(emp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
+emp_yearly_educational_melt$Education_Level <- 
+  as.factor(emp_yearly_educational_melt$Education_Level)
+levels(emp_yearly_educational_melt$Education_Level) <- 
+  c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", 
+    "Vocational Highschool")
 
 unemp_yearly_educational <- yearly_educational %>%
-  transmute(year=as.character(year), illeterate=unemp_illeterate, less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
+  transmute(year=as.character(year), illeterate=unemp_illeterate, 
+            less_than_hs=unemp_less_than_hs, highschool=unemp_highschool, 
+            voc_hs=unemp_voc_hs, higher_ed=unemp_higher_ed)
 
 unemp_yearly_educational_melt<-unemp_yearly_educational %>%
   gather(key="Education_Level", value="Person", -year ) %>%
   group_by(year) %>%
   mutate(Percentage= round(Person/sum(Person) * 100, 1))
 
-unemp_yearly_educational_melt$Education_Level <- as.factor(unemp_yearly_educational_melt$Education_Level)
-levels(unemp_yearly_educational_melt$Education_Level) <- c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", "Vocational Highschool")
+unemp_yearly_educational_melt$Education_Level <- 
+  as.factor(unemp_yearly_educational_melt$Education_Level)
+levels(unemp_yearly_educational_melt$Education_Level) <- 
+  c("Higher Education", "Highschool", "Illeterate", "Less Than Highschool", 
+    "Vocational Highschool")
 ```
 
 The general distribution of workforce has begun to change over the years. The graphs depict that, employment and unemployment rates for the people who have a higher degree, has increased constantly. However in contrary, the rates have started fallen for the people who have a less than highschool degree. 
