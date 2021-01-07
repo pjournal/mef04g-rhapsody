@@ -27,9 +27,7 @@ In the project, the change of labor force by educational level, gender, job sear
   - [PDF Format](FinalReport.pdf)
 - Final Presentation
 
-[![Teaser](teaser_image.png)](https://youtu.be/6uRlfOp_ZzU?t=0 "Teaser")
-
-<iframe width="966" height="543" src="https://www.youtube.com/embed/6uRlfOp_ZzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="400" height="250" src="https://www.youtube.com/embed/6uRlfOp_ZzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
   - [Teaser](https://youtu.be/6uRlfOp_ZzU)
   - [HTML Format](FinalPresentation.html)
