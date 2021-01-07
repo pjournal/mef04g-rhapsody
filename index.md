@@ -14,6 +14,7 @@ In the project, the change of labor force by educational level, gender, job sear
 
 <iframe width="500" height="300" src="https://www.youtube.com/embed/6uRlfOp_ZzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
 
 - [Data Preprocessing](DataPreprocessing.html)
