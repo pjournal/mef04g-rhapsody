@@ -12,6 +12,8 @@
 
 In the project, the change of labor force by educational level, gender, job searching methods and occupational groups of Turkey between the years 2014 and 2020 is analysed.
 
+<iframe width="500" height="300" src="https://www.youtube.com/embed/6uRlfOp_ZzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 - [Project Proposal - Summary of the Data and Explanations](ProjectProposal_DataSummary.html)
 
 - [Data Preprocessing](DataPreprocessing.html)
@@ -26,9 +28,6 @@ In the project, the change of labor force by educational level, gender, job sear
   - [HTML Format](FinalReport.html)
   - [PDF Format](FinalReport.pdf)
 - Final Presentation
-
-<iframe width="400" height="250" src="https://www.youtube.com/embed/6uRlfOp_ZzU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
   - [Teaser](https://youtu.be/6uRlfOp_ZzU)
   - [HTML Format](FinalPresentation.html)
   - [PDF Format](FinalPresentation.pdf)
